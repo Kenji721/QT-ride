@@ -18,7 +18,7 @@ stripe.api_key = "your_stripe_api_key_here"
 
 # Define a context processor to make current_user available to all templates
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///C:/Users//site.db' # add the location of your sqlite db file
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///C:/Users/xvpn/Desktop/website/qeu/site.db' # add the location of your sqlite db file
 migrate = Migrate(app, db)
 login_manager = LoginManager(app)
 login_manager.init_app(app)
