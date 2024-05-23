@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <div id="common-head-placeholder"></div>
+	{% include 'common-head.html' %}
+	
+</head>
+
+<body>
+   <!-- Header Start  -->
+   <div>
+    {% include 'header.html' %}
+</div> 
+   <!-- Header End  -->
+
+	<!-- Header Banner Start  -->
+	<section class="header ">	
+		<div id="loadHeaderBanner-placeholder"></div>
+        <script src="{{ url_for('static', filename='js/loadHeaderBanner.js') }}"></script>
+        <script>loadHeaderBanner('<div class="left-content "><h2>Shmuku vs <span class="highlight">balabala</span></h2><p>Home / Blog</p></div>');</script>
+	</section>	
+	<!-- Header Banner End  -->
+
+    <style>
+
+        @media (max-width: 768px) { 
+            .best-solutions{
+           width: 80vw;
+           margin-right: auto;
+           margin-left: auto;
+
+        }
+         }
+        
+    </style>
+
+    <!-- Blog details start  -->
+    
+    <section class="best-solutions" >
+        <div class="container" style="padding: 50px 0px 50px 0px;">
+            <div class="row">
+                <div class="col-md-8 col-xs-12">
+                    <img src="../static/image/blog-details.svg" class="sample-image-service img-fluid">
+                    <div class="blog-post"> 
+                        <div class="blog-author">
+                            <p> Vitor Vinha </p>
+                        </div>
+                        <div class="blog-date">
+                            <p> 10/5/2022 </p>
+                        </div>
+                        <h2 class="blog-title"> What now, another page.</h2>  
+                        <p>Summarize the main points discussed in the blog post. Encourage readers to embrace change as a natural part of life and to approach transitions with confidence and resilience.</p>     
+                             
+                            <p style="background:#FFEEBF" class="lead">Discuss the inevitability of change and its impact on our lives. Introduce the importance of developing strategies to navigate transitions effectively.</p>
+
+                            <p>Discuss the inevitability of change and its impact on our lives. Introduce the importance of developing strategies to navigate transitions effectively.</p>
+                            <br>
+
+                                 <h2>Comments ({{ comments|length }})</h2>
+                                 <hr>
+
+                                 <div class="comments-section">
+                              
+                                
+                                    {% if comments %}
+                                        <ul class="comment-list">
+                                            {% for comment in comments %}
+                                            <div class="row centralize">
+                                                <div class="col-md-1">
+                                                    <img src="/static/image/comment.png" class="img-fluid" alt="" style="width: 50px; height: auto;">
+                                                </div>
+                                                <div class="col-md-9 justify-content-center">
+                                                    <h5>{{ comment.name }}</h5>
+                                                    <p>{{ comment.message }}</p>
+                                                </div>
+                                            </div>   
+                                            {% endfor %}
+                                        </ul>
+                                    {% else %}
+                                        <p>No comments yet.</p>
+                                    {% endif %}
+                                </div>
+
+
+                               <!-- <div class="row" class="centralize">
+                                   <div class="col-md-3">
+                                       <img src="./static/image/blog-details1.svg" class="img-fluid"alt="">
+                                   </div>
+                                   <div class="col-md-9" class="justify-content-center">
+                                       <h3>Donald Barnhart</h3>
+                                       <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Fugit, quas</p>
+                                   </div>
+                                 </div>
+
+                                 <div class="row">
+                                     <div class="col-md-2"></div>
+                                     <div class="col-md-3">
+                                         <img src="./static/image/blogdetails2.svg" class="img-fluid" alt="">
+                                     </div>
+                                     <div class="col-md-7" class="justify-content-center">
+                                         <h3>Micheal Parez</h3>
+                                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Fugit, quas</p>
+                                     </div>
+                                 </div>
+
+                                 <div class="row">
+                                    <div class="col-md-3">
+                                        <img src="./static/image/blog-details3.svg" class="img-fluid" alt="">
+                                    </div>
+                                    <div class="col-md-9" class="justify-content-center">
+                                        <h3>Donald Barnhart</h3>
+                                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Fugit, quas</p>
+                                    </div>
+                                 </div> -->
+
+                               
+                                 <h2>Give a comment</h2>
+                                 <form method="POST" action="/blogs/{{ blog_id }}">
+                                    <input type="hidden" name="blog_id" value="{{ blog_id }}">
+                                 <div class="row" style="margin-top: 20px;">
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <input style="background:#FFEEBF" type="name" class="form-control" name="name" id="exampleFormControlInput1" placeholder="Your Name" required>
+                                        </div>
+                                        <div class="mb-3">
+                                            <input style="background:#FFEEBF" type="email" class="form-control" name="email" id="exampleFormControlInput1" placeholder="Your Email" required>
+                                        </div>
+                                    </div>
+                                     <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <textarea style="background:#FFEEBF" class="form-control py-5" name="message" id="exampleFormControlTextarea1" rows="3" placeholder="Your Message"></textarea>
+                                    <button type="submit" class="btn btn-warning btn-lg btn-block get-quote-button py-3">Comment</button>
+                                        </div>
+                                    </div>
+                                </div>              
+                                </form>
+                     </div>
+            </div>
+        </div>
+
+        <div class="col-md-4 col-xs-12">
+            <h2> Most Popular </h2>
+            <hr>
+            <div class="container">  
+            <div class="row">
+
+                 <div class="col-md-3">
+                     <img src="/static/image/Images (7).svg" class="img-thumbnail" alt="">
+                   </div>
+                  <div class="col-md-9">
+                    <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Voluptatem, ratione</p>
+                  </div>
+              </div>
+
+              <div class="row">
+                 <div class="col-md-3">
+                    <img src="/static/image/website-template-design-laptop-screen.png" class="img-thumbnail" alt="">
+                  </div>
+                  <div class="col-md-9">
+                    <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Voluptatem, ratione</p>
+
+                 </div>
+              </div>
+
+              <div class="row">
+                <div class="col-md-3">
+                    <img src="/static/image/service_details_sample.png"  class="img-thumbnail" alt="">
+                </div>
+                <div class="col-md-9">
+                    <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Voluptatem, ratione</p>
+                </div>
+            </div>
+        </div>
+        <div class="container" style="padding-top: 30px;">
+            <h2>Catagories</h2>
+            <hr>
+            <div class="row">
+                <div class="col-md-6">UI/UX DESIGN</div>
+                <div class="col-md-6">07 ARTICLES</div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">ECO SUPPORT</div>
+                <div class="col-md-6">07 ARTICLES</div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">WEB DESIGNER</div>
+                <div class="col-md-6">07 ARTICLES</div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">ECO SUPPORT</div>
+                <div class="col-md-6">07 ARTICLES</div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">UI/UX DESIGN</div>
+                <div class="col-md-6">08 ARTICLES</div>
+            </div>
+
+
+        </div>
+        <p></p>
+            <div class="container">
+            <h2>Popular Tags</h2>
+            <hr>          
+                <div class="row" style="margin-top: 20px;">
+                    <div class="col-md-6"><button class="btn btn-outline-secondary mt-md-4">UI/UX DESIGN</button></div>
+                    <div class="col-md-6"><button class="btn btn-outline-secondary">WEB DEVELOPMENT</button></div>
+                </div>
+                <div class="row" style="margin-top: 20px;">
+                    <div class="col-md-7"> <button class="btn btn-outline-secondary ">CONTENT WRITER </button></div>
+                    <div class="col-md-5"> <button class="btn btn-outline-secondary">ECO EXPART</button></div>
+                </div>
+                <div class="row" style="margin-top: 20px;">
+                    <div class="col-md-6"><button class="btn btn-outline-secondary">UI/UX DESIGN</button></div>
+                    <div class="col-md-6"><button class="btn btn-outline-secondary">WEB DEVELOPMENT</button></div>
+                </div>
+
+            </div>
+
+        </div>
+
+
+
+    </div>
+</div>
+
+</section>
+<!-- blog-details- finish -->
+
+<!-- Placeholder for the footer -->
+<div id="footer-placeholder"></div> 
+<!-- footer Start  -->
+<script src="{{ url_for('static', filename='js/loadfooter.js') }}"></script>
+<!-- Footer End  -->
+
+</body>
+</html>

@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <div id="common-head-placeholder"></div>
+    {% include 'common-head.html' %}
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Page</title>
+    <style>
+        /* Existing CSS styles... */
+
+        /* New CSS for the product grid */
+        .product-container {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr); /* 4 items in a row */
+            gap: 20px; /* Space between items */
+        }
+        
+        .product-box {
+            border: 1px solid #ddd; /* Add a border to each box */
+            padding: 20px; /* Add some padding inside the box */
+            border-radius: 5px; /* Optional: Rounds the corners of the boxes */
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1); /* Optional: Adds a subtle shadow to each box */
+        }
+        
+        /* Responsive adjustments */
+        @media (max-width: 1200px) {
+            .product-container {
+                grid-template-columns: repeat(3, 1fr); /* 3 items per row on smaller screens */
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .product-container {
+                grid-template-columns: repeat(2, 1fr); /* 2 items per row on even smaller screens */
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .product-container {
+                grid-template-columns: 1fr; /* 1 item per row on the smallest screens */
+            }
+        }
+
+        /* Center-align the content vertically within the section */
+        .content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* Adjust the spacing around the form and table */
+        .form-container,
+        .table-container {
+            margin-left: auto;
+            margin-right: auto;
+            width: 50%; /* Adjust as needed */
+            max-width: 800px; /* Set a maximum width */
+            padding: 20px;
+            box-sizing: border-box;
+        }
+        .button-space {
+            margin-right: 3px; /* Adjust the value as needed */
+        }
+        
+        /* CSS for button size */
+        .product-button {
+            padding: 3px 3px; /* Adjust padding to increase button size */
+            font-size: 12px; /* Adjust font size to increase button size */
+        }
+}       
+    </style>
+</head>
+
+<body>
+    <!-- Header Start  -->
+    <div>
+        {% include 'header.html' %}
+    </div>
+    <!-- Header End  -->
+
+    <!-- Header Banner Start  -->
+    <section class="header ">
+        <div id="loadHeaderBanner-placeholder"></div>
+        <script src="/static/js/loadHeaderBanner.js"></script>
+        <script>
+            loadHeaderBanner('<div class="left-content "><h2>Our <span class="highlight">Inventory</span></h2><p>Home / Shop</p></div>');
+        </script>
+    </section>
+    <br><br>
+    <section>
+    <br><br>
+
+    
+    <section class="content">
+        <h1>Admin Shop</h1>
+    
+        <!-- Display form to add a new product -->
+        <div class="table-container">
+            <h2>Current Products</h2>
+            <table border="1">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Price</th>
+                        <th>Description</th>
+                        <th>Image URL</th>
+                        <th>Quantity</th>
+                        <th>Actions</th> <!-- New column for buttons -->
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for product in products %}
+                    <tr>
+                        <td>{{ product.name }}</td>
+                        <td>{{ product.price }}</td>
+                        <td>{{ product.description }}</td>
+                        <td>{{ product.image_url }}</td>
+                        <td>{{ product.quantity }}</td>
+                        <td>
+                            <!-- Buttons for each action -->
+                            <button class="button-space product-button" onclick="updateInventory('{{ product.id }}', 'add')">+</button>
+                            <button class="button-space product-button" onclick="updateInventory('{{ product.id }}', 'remove')">-</button>
+                            <button class="button-space product-button" onclick="updateInventory('{{ product.id }}', 'delete')">Delete</button>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <!-- New product box for adding a new product -->
+        <div class="product-box">
+            <h2>Add New Product</h2>
+            <form id="new-product-form">
+                <input type="text" id="new-product-name" placeholder="Name">
+                <input type="text" id="new-product-description" placeholder="Description">
+                <input type="number" id="new-product-quantity" placeholder="Quantity">
+                <input type="number" id="new-product-price" placeholder="Price">
+                <input type="text" id="new-product-image-url" placeholder="Image URL">
+                <!-- Add a hidden input field to store the action value -->
+                <input type="hidden" id="action" value="add_product">
+                <button type="button" onclick="addNewProduct()">Add Product</button>
+            </form>
+        </div>
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script>
+            function updateInventory(productId, action) {
+                
+                $.ajax({
+                    url: '/update_inventory',
+                    type: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify({ product_id: productId, action: action }),
+                    success: function(response) {
+                        // Refresh the page after successful update
+                        location.reload();
+                    },
+                    error: function(xhr) {
+                        console.error('Error updating inventory:', xhr);
+                        var errorMessage = xhr.responseJSON && xhr.responseJSON.error;
+                        alert('An error occurred while updating inventory: ' + errorMessage);
+                        }
+                    }
+                );
+            }
+
+            function addNewProduct() {
+                // Gather data from the form
+                var name = document.getElementById("new-product-name").value;
+                var description = document.getElementById("new-product-description").value;
+                var quantity = document.getElementById("new-product-quantity").value;
+                var price = document.getElementById("new-product-price").value;
+                var imageUrl = document.getElementById("new-product-image-url").value;
+                var action = document.getElementById("action").value;  // Get the action value
+            
+                // Send request to add the new product
+                $.ajax({
+                    url: '/admin/shop',
+                    type: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify({ name: name, description: description, quantity: quantity, price: price, image_url: imageUrl, action: action }), // Include the action value
+                    success: function (response) {
+                        alert('Product added successfully!');
+                        // You can optionally reload the page to see the new product
+                        location.reload();
+                    },
+                    error: function (xhr) {
+                        var errorMessage = xhr.responseJSON.error;
+                        alert(errorMessage);
+                    }
+                });
+            }
+        </script>
+        
+</body>
+
+
+</html>

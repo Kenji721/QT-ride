@@ -1,0 +1,61 @@
+<!-- Header Navigation Start  -->
+
+<section class="header">
+    <div class="container header-nav">
+        <div class="row">
+            <div class="col-md-12">
+                <nav class="navbar navbar-expand-lg navbar-light bg-light main-menu fixed-top ">
+                    <div class="container">
+                        <a href="#" class="navbar-brand">
+                            <img src="/static/image/Logo.png" alt=" QEU">
+                        </a>
+                        <button class="navbar-toggler" data-toggle="collapse" data-target="#beeToggler">
+                            <span class="navbar-toggler-icon"><i class="fa fa-bars"></i></span>
+                        </button>
+                        <div class="collapse navbar-collapse" id="beeToggler">
+                            <ul class="navbar-nav ml-auto ">
+                                <li><a href="/index">Home</a></li>
+                                &nbsp;
+                                <li class="dropdown">
+                                    <a class="dropdown-toggle" href="#" id="servicesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        Services
+                                    </a>
+                                    <div class="dropdown-menu" aria-labelledby="servicesDropdown">
+                                        <a class="dropdown-item" href="/service1">service 1</a>
+                                        <a class="dropdown-item" href="/service2">service 2</a>
+                                    </div>
+                                </li>
+                                &nbsp;
+                                <li><a href="/team">About us</a></li>
+                                &nbsp;
+                                <li><a href="/blog">Blog</a></li>
+                                &nbsp;
+                                <li>
+                                    <a href="/contactus">
+                                        <button class="nav-button">Contact Us <i class="fas fa-angle-right"></i> </button>
+                                    </a>
+                                </li>
+                                {% if current_user.is_authenticated %}
+                                <li><a href="/shop">Shop</a></li>
+                                <li><a href="/mycart">My Cart</a></li>
+                                {% else %}
+                                {% endif %}  
+
+                                &nbsp;
+                               
+                                {% if current_user.is_authenticated %}
+                                    <li><a href="/signout">Sign Out</a></li>
+                                {% else %}
+                                    <li><a href="/signin">Sign In</a></li>
+                                {% endif %}  
+                             
+                        
+                            </ul>
+                        </div>
+                    </div>
+                </nav>
+            </div>
+        </div>
+    </div>
+</section>
+	<!-- Header Navigation End  -->

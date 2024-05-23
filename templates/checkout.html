@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script src="https://js.stripe.com/v3/"></script>
+    <div id="common-head-placeholder"></div>
+    {% include 'common-head.html' %}
+    <style>
+        /* Add your custom CSS styles here */
+        .form-container {
+            width: 50%;
+            margin: 0 auto;
+            border: 1px solid #ccc;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+        label {
+            margin-bottom: 10px;
+            font-weight: bold;
+            width: 100%;
+        }
+        input {
+            margin-bottom: 10px;
+            width: calc(50% - 5px);
+            padding: 8px;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        button[type="submit"] {
+            padding: 12px 20px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+        .btn-secondary {
+            margin-top: 10px;
+            padding: 12px 20px;
+            background-color: #6c757d;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            width: auto;
+        }
+        .btn-secondary:hover {
+            background-color: #5a6268;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header Start  -->
+    <div>
+        {% include 'header.html' %}
+    </div> 
+    <!-- Header End  -->
+
+    <!-- Header Banner Start  -->
+    <section class="header ">   
+        <div id="loadHeaderBanner-placeholder"></div>
+        <script src="/static/js/loadHeaderBanner.js"></script>
+        <script>loadHeaderBanner('<div class="left-content "><h2>Checkout</h2><p>Home / Checkout</p></div>');</script>
+    </section>  
+    <br><br><br>
+
+    <div class="container">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Product Name</th>
+                    <th>Product Description</th>
+                    <th>Price</th>
+                    <th>Quantity</th>
+                    <th>Total</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for product_id, product_info in product_totals.items() %}
+                <tr>
+                    <td>{{ product_info.name }}</td>
+                    <td>{{ product_info.description }}</td>
+                    <td>${{ product_info.total / product_info.quantity }}</td>
+                    <td>{{ product_info.quantity }}</td>
+                    <td>${{ product_info.total }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <div>
+            <strong>Total Cost: ${{ total_cost }}</strong>
+        </div>
+
+        <!-- Payment form -->
+        <div class="form-container">
+            <!-- Payment form -->
+            <form action="/process_payment" method="POST">
+                <label for="cardholder-name">Cardholder Name:</label>
+                <input type="text" id="cardholder-name" name="cardholder_name" required>
+    
+                <label for="card-number">Card Number:</label>
+                <input type="text" id="card-number" name="card_number" required>
+    
+                <div style="display: flex; justify-content: space-between;">
+                    <div style="width: calc(50% - 5px); margin-right: 10px;">
+                        <label for="expiry-date">Expiry Date:</label>
+                        <input type="text" id="expiry-date" name="expiry_date" placeholder="MM/YY" required>
+                    </div>
+                    <div style="width: calc(50% - 5px); margin-left: 10px;">
+                        <label for="cvc">CVC:</label>
+                        <input type="text" id="cvc" name="cvc" required>
+                    </div>
+                </div>
+                
+                <input type="hidden" name="amount" value="{{ total_cost * 100 }}"> <!-- Amount in cents -->
+                <div id="card-errors" role="alert"></div>
+
+                <button type="submit">Pay Now</button>
+            </form>
+            
+            <a href="/mycart" class="btn-secondary">Return to Cart</a>
+        </div>
+        
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- Add any additional JavaScript code here -->
+    
+    <script>
+        // Create a Stripe instance with your publishable API key
+        var stripe = Stripe('your_publishable_key');
+
+        // Create an instance of elements
+        var elements = stripe.elements();
+
+        // Create an instance of the card Element
+        var card = elements.create('card');
+
+        // Add the card Element to the card-number-element
+        card.mount('#card-number-element');
+
+        // Add additional Stripe elements for expiry date and CVC
+        var exp = elements.create('cardExpiry');
+        exp.mount('#expiry-date-element');
+        
+        var cvc = elements.create('cardCvc');
+        cvc.mount('#cvc-element');
+
+        // Handle real-time validation errors from the card Element
+        card.addEventListener('change', function(event) {
+            var displayError = document.getElementById('card-errors');
+            if (event.error) {
+                displayError.textContent = event.error.message;
+            } else {
+                displayError.textContent = '';
+            }
+        });
+
+        // Handle form submission
+        var form = document.getElementById('payment-form');
+        form.addEventListener('submit', function(event) {
+            event.preventDefault();
+            stripe.createToken(card).then(function(result) {
+                if (result.error) {
+                    // Inform the user if there was an error
+                    var errorElement = document.getElementById('card-errors');
+                    errorElement.textContent = result.error.message;
+                } else {
+                    // Send the token to your server to process the payment
+                    // This is where you would typically make an AJAX request
+                    var token = result.token;
+                    // Include the token in the form data and submit the form
+                    // form.submit();
+                }
+            });
+        });
+    </script>  
+
+
+
+</body>
+</html>

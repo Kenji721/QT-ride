@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <div id="common-head-placeholder"></div>
+	{% include 'common-head.html' %}
+	<style>
+        /* CSS to move the search form and search results 50 pixels to the right */
+        .search-container {
+            margin-left: 400px;
+        }
+    </style>
+</head>
+
+<body>
+	
+   <!-- Header Start  -->
+   <div>
+	{% include 'header.html' %}
+</div> 
+    <!-- Header End  -->
+
+	
+	<!-- Header Banner Start  -->
+	<section class="header">	
+		<div id="loadHeaderBanner-placeholder"></div>
+			<script src="/static//js/loadHeaderBanner.js"></script>
+			<script>
+				loadHeaderBanner('<div class="left-content "><h2>Our <span class="highlight">Blog</span></h2><p>Home / Blog</p></div>');
+			</script>
+	
+			<!-- Search form -->
+	    	<div span class="search-container"> <!-- Add a container for the search form and results -->
+				<form action="/search" method="GET">
+					<input type="text" name="query" placeholder="Search...">
+					<button type="submit">Search</button>
+				</form>
+
+	<!-- Display search results -->
+				<div>
+				</div>
+			</div>
+	</section>	
+	<!-- Header Banner End  -->
+	{% with messages = get_flashed_messages(with_categories=true) %}
+		{% if messages %}
+	 		 {% for category, message in messages %}
+				<div class="alert alert-{{ category }}">
+				  {{ message }}
+				</div>
+			{% endfor %}
+		{% endif %}
+  	{% endwith %}	
+<!--	{% for post in blog_posts %}
+	<h5><a href="{{ url_for('blog_comments', blog_id=post.id) }}">{{ post.title }}</h5></a>
+	{% endfor %} -->	
+
+	<!-- Latest Blog Star  -->
+	
+
+	<section class="latest-blog section-padding">
+		<div class="container">
+            <div class="row">
+                <h2 class="text-center w-100 service-heading">Latest:
+                    <span class="highlight">Blog</span> </h2>
+            </div>
+        </div>
+		{% if blog_posts %}
+		{% for blog in blog_posts.items %}
+			<div class="container mt-5 blog-container">
+				<div class="row">
+					<div class="col-md-4 centralize">
+						<img src="./static/image/meeting.jpg" alt="" class="img-fluid"/>
+					</div>
+					<div class="col-md-8 centralize mt-4">
+						<div class="blog-post"> 
+							
+							<div class="blog-content"> 
+								<h5><a href="{{ url_for('blog_comments', blog_id=blog.id) }}">{{ blog.title }} </a></h5>
+								<p class="blog-excerpt">
+									{% set words = blog.content.split() %}
+									{% set excerpt = ' '.join(words[4:]) %}
+									{{ excerpt[:192] }}{% if excerpt|length > 192 %}...{% endif %}
+								</p>
+								
+							</div>
+							<div class="blog-author"> 
+								<p>  {{ blog.author }} </p>
+							</div>
+							<div class="blog-date"> 
+								<p>  {{ blog.date }} </p>
+							</div>
+						</div>
+					</div>              
+				</div>
+			</div>
+		{% endfor %}
+	{% elif search_results %}
+		{% for post in search_results %}
+			<div class="container mt-5 blog-container">
+				<div class="row">
+					<div class="col-md-4 centralize">
+						<img src="./static/image/meeting.jpg" alt="" class="img-fluid"/>
+					</div>
+					<div class="col-md-8 centralize mt-4">
+						<div class="blog-post"> 
+							<div class="blog-author">
+								<p> <h3>{{ blog.auther }}</h3> </p>
+							</div>
+							<div class="blog-date">
+								<p> <h3>{{ blog.date }}</h3> </p>
+							</div>
+							<div class="blog-content"> 
+								<h5><a href="{{ url_for('blog_posts', blog_id=post.id) }}">{{ post.title }}</a></h5>
+								<p class="blog-excerpt">
+									{% set words = blog.content.split() %}
+									{% set excerpt = ' '.join(words[4:]) %}
+									{{ excerpt[:192] }}{% if excerpt|length > 192 %}...{% endif %}
+								</p>
+							</div>
+							<div class="blog-author"> 
+								<p>  {{ blog.author }} </p>
+							</div>
+							<div class="blog-date"> 
+								<p>  {{ blog.date }} </p>
+							</div>
+						</div>
+					</div>              
+				</div>
+			</div>
+		{% endfor %}
+	{% endif %}
+	
+
+<!-- Pagination  -->
+<div class="row mt-5 justify-content-center">
+    <div class="col-md-6 d-flex justify-content-center">
+        <div class="pagination">
+            <ul>
+                {% if blog_posts %}
+    <div class="pagination">
+        <ul>
+            {% if blog_posts.has_prev %}
+                <li class="previous"><a href="{{ url_for('blog', page=blog_posts.prev_num) }}"><i class="fas fa-angle-left"></i></a></li>
+            {% endif %}
+            {% for num in blog_posts.iter_pages() %}
+                {% if num %}
+                    <li{% if num == blog_posts.page %} class="active"{% endif %}><a href="{{ url_for('blog', page=num) }}">{{ num }}</a></li>
+                {% else %}
+                    <li class="disabled"><span>...</span></li>
+                {% endif %}
+            {% endfor %}
+            {% if blog_posts.has_next %}
+                <li class="next"><a href="{{ url_for('blog', page=blog_posts.next_num) }}"><i class="fas fa-angle-right"></i></a></li>
+            {% endif %}
+        </ul>
+    </div>
+{% endif %}
+    </div>
+</div>
+
+ 		<!--	<div class="row mt-5 justify-content-center">
+				<div class="col-md-6 d-flex justify-content-center"> 
+					<div class="pagination">
+						<ul>
+							<li class="previous"><a href="#" ><i class="fas fa-angle-left"></i></a></li>
+							<li><a href="#">01</a></li>
+							<li><a href="#">02</a></li>
+							<li><a href="#">03</a></li>
+							<li class="next"><a href="#"> <i class="fas fa-angle-right"></i> </a></li>
+						</ul>
+					</div>
+				</div>
+			</div> -->
+		
+		
+		<div class="container mt-5">
+			<div class="row">
+				<h2 class="text-center w-100 service-heading">Sign up to our 
+                    <span class="highlight">Montly newletter?</span> 
+				</h2>
+				<p class="sub-heading text-center w-100">
+					Keep yourself updated on Software quality, tips and best practices.
+				</p>
+			</div>
+			<div class="row">
+				<div class="col-md-12 mt-3">
+					<form action="/subscribe" method="post" id="newsletter-form">
+						<div class="form-group d-flex justify-content-center">
+							<label for="client-mail"></label>
+							<input type="email" class="form-control" id="client-mail" name="client-mail" placeholder="Enter Your Email" required>
+							<button type="submit">Sign up</button>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</section>
+	
+
+
+	<!-- Placeholder for the footer -->
+    <div id="footer-placeholder"></div> 
+	<!-- footer Start  -->
+    <script src="./static/js/loadfooter.js"></script>  
+    <!-- Footer End  -->
+   
+</body>
+
+</html>

@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <div id="common-head-placeholder"></div>
+    {% include 'common-head.html' %}
+   <!-- <script src="./static/js/loadCommonHead.js"></script>-->
+
+   <style>
+    .message {
+        background-color: lightgreen; /* Change to a lighter shade of green */
+        padding: 2px; /* Add padding around the message text */
+        border-radius: 5px; /* Apply rounded corners */
+        border: 1px solid darkgreen; /* Add a border for contrast */
+        opacity: 0.9; /* Make the block slightly transparent */
+        width: auto; /* Adjust width to fit the content */
+        max-width: 200px; /* Set a maximum width to prevent it from becoming too wide */
+        margin: 1px; /* Add margin to create space around the block */
+        display: none
+    }
+    </style>
+
+</head>
+<body>
+    <div>
+        {% include 'header.html' %}
+    </div> 
+  
+
+    <!-- Header Banner Start  -->
+    <section class="header ">	
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4">
+                    <div id="message" class="message">
+                        {% if message %}
+                            <p>{{ message }}</p>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    <div id="loadHeaderBanner-placeholder"></div>
+        <script src="/static/js/loadHeaderBanner.js"></script>
+        <script>loadHeaderBanner('<div class="left-content "><h2>Welcome to <span class="highlight">Your [Company/Website Name]</span></h2><p>where we [Briefly describe what your company/website does or offers]</p></div>');</script>
+</section>	
+<!-- Header Banner End  -->
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-4">
+            <div id="message" class="message">
+                {% if message %}
+                    <p>{{ message }}</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+
+</div>
+
+    <!-- Work Process Start  -->
+    <section class="work-process section-padding" style="background: #fff;">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="process-block">
+                        <img src="" alt="Projec 1">
+                        <h3>Offer 1</h3>
+                        <p>describe what you can offer</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="process-block">
+                        <img src="" alt="Projec 2">
+                        <h3>Offer 2</h3>
+                        <p>describe what you can offer</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="process-block">
+                        <img src="" alt="Projec 3">
+                        <h3>Offer 3</h3>
+                        <p>describe what you can offer</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row mt-5">
+                <div class="col-md-5">
+                    <img src="" alt="Client meeting picture" class="img img-fluid" width="400" height="200">
+                </div>
+               <div id="Letstalk">
+                </div>
+               </div>
+                <div class="col-md-7 centralize">
+                    <div class="project-discussion ">
+                        <h2>Let's Talk <span class="highlight">Business</span> </h2>
+                        <p>
+                            add some marketing content here
+                        </p>
+                        <p>
+                            Our company can help you with A B and C
+                        </p>
+                        <a href="/contactus">
+                        <button>Let's Talk <i class="fas fa-angle-right"></i></button>
+                       </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Work Process End  -->
+
+    <!-- Services Start  -->
+
+    <section class="services section-padding">
+        <div class="container">
+            <div class="row">
+                <h2 class="text-center w-100 service-heading">Our Top offering or examples here
+                    <span class="highlight">cards details</span> </h2>
+            </div>
+        </div>
+
+        <div class="container text-center mt-5">
+            <div class="row mx-auto my-auto">
+                <div id="myCarousel" class="carousel slide w-100" data-ride="carousel">
+                    <div class=".service-carousel carousel-inner w-100" role="listbox">
+                    
+                        <div class="carousel-item active">
+                            <div class="col-lg-4 col-md-6 col-sm-12 col-12">
+                                <div class="card service-card" style="width: 18rem;">
+                                    <div class="card service-block-card" style="width: 18rem;">
+                                        <img src="./static/image/creative-postcard-set-blue-wall.jpg" class="card-img-top" alt="ui_design_card">
+                                        <div class="card-body">
+                                          <h5 class="card-title">card-title</p>
+                                          <p class="card-text">describe the card content here.</p>  
+                                          <a href="./courses/course-details1" class="">Learn More ><i class="fas fa-angel-right"></i></a>
+                                        </div>
+                                     </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="carousel-item">
+                            <div class="col-lg-4 col-md-6 col-sm-12 col-12">
+                                <div class="card service-card" style="width: 18rem;">
+                                        <div class="card service-block-card" style="width: 18rem;">
+                                            <img src="./static/image/creative-postcard-set-blue-wall.jpg" class="card-img-top" alt="ui_design_card">
+                                            <div class="card-body">
+                                              <h5 class="card-title">card-title</h5>
+                                              <p class="card-text">describe the card content here.</p>
+                                              <a href="./courses/course-details1" class="">Learn More ><i class="fas fa-angel-right"></i></a>
+                                            </div>
+                                          </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="carousel-item">
+                            <div class="col-lg-4 col-md-6 col-sm-12 col-12">
+                                <div class="card service-card" style="width: 18rem;">
+                                    <img class="card-img-top" src="./static/image/creative-postcard-set-blue-wall.jpg"
+                                        alt="Card image cap">
+                                    <div class="card-body">
+                                        <h5 class="card-title">card-title</h5>
+                                        <p class="card-text">describe the card content here.</p>
+                                        <a href="./courses/course-details1" class="">Learn More ><i class="fas fa-angel-right"></i></a>
+                                        </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="carousel-item">
+                            <div class="col-lg-4 col-md-6 col-sm-12 col-12">
+                                <div class="card service-card" style="width: 18rem;">
+                                    <img class="card-img-top"
+                                        src="./static/image/creative-postcard-set-blue-wall.jpg"
+                                        alt="Card image cap">
+                                    <div class="card-body bg-white">
+                                        <h5 class="card-title">card-title</h5>
+                                        <p class="card-text">describe the card content here.</p>
+                                        <a href="./courses/course-details1" class="">Learn More <i class="fas fa-angel-right"></i></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- <div class="carousel-item">
+                            <div class="col-lg-4 col-md-6 col-sm-12 col-12">
+                                <div class="card service-card" style="width: 18rem;">
+                                    <img class="card-img-top" src="./static/image/web-design-concepts-with-blurred-background.jpg"
+                                        alt="Card image cap">
+                                    <div class="card-body bg-white">
+                                        <h5 class="card-title">UI/UX</h5>
+                                        <p class="card-text"describe the card content here.</p>
+                                        <a href="#" class="">Learn More <i class="fas fa-angel-right"></i></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div> -->
+                        
+                        <!-- <div class="carousel-item">
+                            <div class="col-lg-4 col-md-6 col-sm-12 col-12">
+                                <div class="card service-card" style="width: 18rem;">
+                                    <img class="card-img-top" src="./static/image/creative-postcard-set-blue-wall.jpg"
+                                        alt="Card image cap">
+                                    <div class="card-body bg-white">
+                                        <h5 class="card-title">UI/UX</h5>
+                                        <p class="card-text">describe the card content here.</p>
+                                        <a href="#" class="">Learn More <i class="fas fa-angel-right"></i></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div> -->
+                    </div>
+                    
+                   <a class="carousel-control-prev w-auto " href="#myCarousel" role="button" data-slide="prev">
+                        <span class="carousel-control-prev-icon service-control-prev" aria-hidden="true"></span>
+                        <span class="sr-only">Previous</span>
+                    </a>
+                    <a class="carousel-control-next w-auto" href="#myCarousel" role="button" data-slide="next">
+                        <span class="carousel-control-next-icon service-control-next" aria-hidden="true"> </span>
+                        <span class="sr-only">Next</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services End  -->
+
+    <!-- Testimonial Start  -->
+
+    <section class="testimonial section-padding">
+        <div class="container">
+            <div class="card col-md-12 mt-2">
+                <div id="carouselExampleControls" class="carousel slide" data-ride="carousel" data-interval="100000">
+                    
+                    <div class="w-100 carousel-inner mb-5" role="listbox">
+                        <div class="carousel-item active">
+                            <div class="row">
+                                <div class="col-lg-7 d-flex flex-column justify-content-center">
+                                    <div class="testimonial-description">
+                                        <h3> What do our clients say? </h3>
+                                        <div class="client-meta-data">
+                                            <h5>John Doe</h5>
+                                            <p> description</p>
+                                            <p class="clients-feedback"> 
+												put here the testimonial text from your clients
+											</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-5">
+                                    <div class="client-picture">
+                                        <img src="static/image/client.png" alt="" class="img-fluid" />
+                                        <img src="static/image/coma.svg" alt="" class="coma" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!--START php slide-->
+                        
+                        <div class="carousel-item">
+                            <div class="row">
+                                <div class="col-md-7 d-flex flex-column justify-content-center">
+                                    <div class="testimonial-description">
+                                        <h3> What do our clients say?  </h3>
+                                        <div class="client-meta-data">
+                                            <h5>John Doe</h5>
+                                            <p>description</p>
+                                            <p class="clients-feedback">
+												put here the testimonial text from your clients
+											</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-5">
+                                    <div class="client-picture">
+                                        <img src="static/image/client 2.png" alt="500x500" class="img-fluid" />
+                                        <img src="./static/image/coma.svg" alt="" class="coma" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <br><br><br><br><br>
+                    <a class="carousel-control-prev testimonial-control" href="#carouselExampleControls" role="button" data-slide="prev">
+                        <span class="carousel-control-prev-icon testimonial-control-icon" aria-hidden="true"><i class="fas fa-chevron-left"></i></span>
+                        <span class="sr-only">Previous</span>
+                    </a>
+                    <a class="carousel-control-next testimonial-control" href="#carouselExampleControls" role="button"data-slide="next">
+                        <span class="carousel-control-next-icon testimonial-control-icon" aria-hidden="true"><i class="fas fa-chevron-right"></i></span>
+                        <span class="sr-only">Next</span>
+                    </a>    
+                </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Testimonial End  -->
+
+    <!-- Portfolio Start  -->
+
+  <section class="portfolio section-padding">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <h2 class="text-center portfolio-heading">The Company <span class="highlight">Work</span> </h2>
+                </div>
+            </div>
+        </div>
+        <div class="container mt-5">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="portfolio-buttons text-center">
+                        <button type="button" class="control" data-filter="all">All</button>
+                        <button type="button" class="control" data-filter=".design">Project 1</button>
+                        <button type="button" class="control" data-filter=".development">Project 2</button>
+                        <button type="button" class="control" data-filter=".seo">Project 3</button>
+                        <button type="button" class="control" data-filter=".brand">Project 4</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container myMixCont text-center" data-ref="mixitup-container">
+            <div class="row d-flex justify-content-center ">
+                <div class="col-lg-3 col-md-3 col-sm-6 col-xs-6">
+                    <a href="#"><img src="./static/image/Portfolio 1.svg"  class="img-fluid design" data-ref="mixitup-target"></a>
+                    <a href="#"><img src="./static/image/Portfolio 1.svg"  class="img-fluid development" data-ref="mixitup-target"></a>
+                  </div>
+                  <div class="col-lg-3 col-md-3 col-sm-6 col-xs-6">
+                  <a href="#"><img src="./static/image/Portfolio 1.svg"  class="img-fluid brand" data-ref="mixitup-target"></a>
+                  <a href="#"><img src="./static/image/Portfolio 1.svg"  class="img-fluid photos" data-ref="mixitup-target"></a>
+                  </div> 
+                  <div class="col-lg-3 col-md-3 col-sm-6 col-xs-6">
+                  <a href="#"><img src="./static/image/Portfolio 1.svg"  class="img-fluid development" data-ref="mixitup-target"></a>
+                  <a href="#"><img src="./static/image/Portfolio 1.svg"  class="img-fluid seo" data-ref="mixitup-target"></a> 
+                  </div>
+            </div>
+            
+        </div>
+    </section>
+    <!-- Partner Start  -->
+
+    <section class="partners section-padding">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <h2 class="text-center partner-heading">Our  
+                        <span class="highlight"> Business Partners</span></h2>
+                </div>
+            </div>
+            <div class="row mt-5">
+                <div class="col-lg-3 col-md-6 d-flex justify-content-center">
+                    <div class="partner">
+                        <img src="./static/image/A (3).png" alt="" class="img-fluid">
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 d-flex justify-content-center">
+                    <div class="partner">
+                        <img src="./static/image/A (4).png" alt="" class="img-fluid">
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 d-flex justify-content-center">
+                    <div class="partner">
+                        <img src="./static/image/A (2).png" alt="" class="img-fluid">
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 d-flex justify-content-center">
+                    <div class="partner">
+                        <img src="./static/image/A (1).png" alt="" class="img-fluid">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Partner End  -->
+    
+    <div id="footer-placeholder"></div> <!-- Placeholder for the footer -->
+    <!-- footer Start  -->
+        <script src="./static/js/loadfooter.js"></script>
+
+
+        <script>
+            // Display the message
+            var messageDiv = document.getElementById('message');
+            if (messageDiv.innerHTML.trim() !== '') {
+                messageDiv.style.display = 'block'; // Show the message if it's not empty
+            }
+    
+            // Automatically hide the message after 10 seconds
+            setTimeout(function() {
+                messageDiv.style.display = 'none';
+            }, 5000); // 5 seconds in milliseconds
+        </script>
+
+
+
+</body>
+
+</html>

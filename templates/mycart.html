@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+    <div id="common-head-placeholder"></div>
+	{% include 'common-head.html' %}
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Page</title>
+    <style>
+            /* Custom class for yellow button */
+            .btn-yellow {
+                background-color: orange !important; /* Use !important to override any existing background color */
+                color: black !important; 
+                /
+            }
+    </style>
+</head>
+
+<body>
+    <!-- Header Start  -->
+	 <div>
+        {% include 'header.html' %}
+    </div> 
+    <!-- Header End  -->
+
+	<!-- Header Banner Start  -->
+ 	<section class="header ">	
+        <div id="loadHeaderBanner-placeholder"></div>
+        <script src="/static/js/loadHeaderBanner.js"></script>
+        <script>loadHeaderBanner('<div class="left-content "><h2>My <span class="highlight">Cart</span></h2><p>Home / My Cart</p></div>');</script>
+    </section>	
+    <br><br><br>
+    <div class="container">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Product Name</th>
+                    <th>Product Description</th>
+                    <th>Price</th>
+                    <th>Quantity</th>
+                    <th>Total</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for product_id, product_info in product_totals.items() %}
+                <tr>
+                    <td>{{ product_info.name }}</td>
+                    <td>{{ product_info.description }}</td>
+                    <td>${{ product_info.total / product_info.quantity }}</td>
+                    <td>{{ product_info.quantity }}</td>
+                    <td>${{ product_info.total }}</td>
+                    <td>
+                        <button onclick="updateQuantity('{{ product_id }}', 'add')">+</button>
+                        <button onclick="updateQuantity('{{ product_id }}', 'remove')">-</button>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <div>
+            <strong>Total Cost: ${{ total_cost }}</strong>
+        </div>
+        <br>
+        <a href="/checkout"> <button class="nav-button">Checkout <i class=""></i></button></a>
+        <a href="/shop"> <button class= "nav-button">Return to Shop<i class=""></i></button></a>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        function updateQuantity(productId, action) {
+            if (action === 'add' && {{ product_info.quantity }} === 0) {
+                alert('The product is out of stock.');
+                return;
+            }
+            $.ajax({
+                url: '/update_quantity',
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify({ product_id: productId, action: action }),
+                success: function(response) {
+                    // Refresh the page after successful update
+                    location.reload();
+                },
+                error: function(xhr) {
+                    console.error('Error updating quantity:', xhr);
+                    var errorMessage = xhr.responseJSON && xhr.responseJSON.error;
+                    if (errorMessage && errorMessage.includes('out of stock')) {
+                        alert('The product is out of stock.');
+                    } else {
+                        alert('An error occurred while updating quantity. Please try again.');
+                    }
+                }
+            });
+        }
+    </script>
+</body>
+</html>

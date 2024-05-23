@@ -1,0 +1,180 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <div id="common-head-placeholder"></div>
+    {% include 'common-head.html' %}
+   <!-- <script src="./static/js/loadCommonHead.js"></script>-->
+</head>
+<body>
+    <!-- Header Start  -->
+	<div>
+        {% include 'header.html' %}
+    </div> 
+    <!-- Header End  -->
+
+    <!-- Header Banner Start  -->
+    <section class="header ">	
+    <div id="loadHeaderBanner-placeholder"></div>
+        <script src="/static/js/loadHeaderBanner.js"></script>
+        <script>loadHeaderBanner('<div class="left-content "><h2>Service <span class="highlight">Two <p>Home / services</p></span> <span class="highlight"></span></h2></div>');</script>
+</section>	
+<!-- Header Banner End  -->
+
+	<!-- Portfolio Start  -->
+
+<section class="portfolio section-padding">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <h2 class="text-center portfolio-heading">Our Company <span class="highlight">Projects Examples</span> </h2>
+                </div>
+            </div>
+        </div>
+        <div class="container mt-5">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="portfolio-buttons text-center">
+                        <button type="button" class="control" data-filter="all">All</button>
+                        <button type="button" class="control" data-filter=".design">service 1</button>
+                        <button type="button" class="control" data-filter=".development">service 2</button>
+                        <button type="button" class="control" data-filter=".case">service 3</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container myMixCont text-center" data-ref="mixitup-container">
+            <div class="row d-flex justify-content-center ">
+                <div class="col-lg-3 col-md-3 col-sm-6 col-xs-6">
+				
+					<div class="portfolio-block design" data-ref="mixitup-target">
+						<img src="/static/image/Portfolio 1.svg"  class="img-fluid" >
+						<div class="portfolio-overlay">
+							<a href="#">
+								<h3>Project Title</h3>
+							</a>
+							<a href="#">
+								<p> Category </p>
+							</a>
+						</div>
+					</div>
+
+					<div class="portfolio-block development" data-ref="mixitup-target">
+						<img src="./static/image/Portfolio 1.svg"  class="img-fluid" >
+						
+						<div class="portfolio-overlay">
+							<a href="#">
+								<h3>Project Title</h3>
+							</a>
+							<a href="#">
+								<p> Category </p>
+							</a>
+						</div>
+					</div>
+
+					<div class="portfolio-block development" data-ref="mixitup-target">
+						<img src="./static/image/Portfolio 1.svg"  class="img-fluid" >
+						<div class="portfolio-overlay">
+							<a href="#">
+								<h3>Project Title</h3>
+							</a>
+							<a href="#">
+								<p> Category </p>
+							</a>
+						</div>
+					</div>
+
+                  </div>
+				  
+				  <div class="col-lg-3 col-md-3 col-sm-6 col-xs-6">
+					<div class="portfolio-block design" data-ref="mixitup-target">
+						<img src="./static/image/Portfolio 1.svg"  class="img-fluid" >
+						<div class="portfolio-overlay">
+							<a href="#">
+								<h3>Project Title</h3>
+							</a>
+							<a href="#">
+								<p> Category </p>
+							</a>
+						</div>
+					</div>
+
+					<div class="portfolio-block case" data-ref="mixitup-target">
+						<img src="./static/image/Portfolio 1.svg"  class="img-fluid" >
+						<div class="portfolio-overlay">
+							<a href="#">
+								<h3>Project Title</h3>
+							</a>
+							<a href="#">
+								<p> Category </p>
+							</a>
+						</div>
+					</div>
+
+					<div class="portfolio-block case" data-ref="mixitup-target">
+						<img src="./static/image/Portfolio 1.svg"  class="img-fluid" >
+						<div class="portfolio-overlay">
+							<a href="#">
+								<h3>Project Title</h3>
+							</a>
+							<a href="#">
+								<p> Category </p>
+							</a>
+						</div>
+					</div>
+                </div>
+            </div>          
+        </div>
+    </div>
+</section>
+	
+	<!-- Portfolio End -->
+	
+	<!-- Portfolio Call to Action Start -->
+	<section class="service-type mt-5">
+        <div class="container">
+            <div class="row service-type-gap">
+                <div class="col-md-6 centralize"> 
+                    <img src="./static/image/Group 1675.png" class="img-fluid mb-5">
+                </div>
+                <div class="col-md-6 centralize">
+                    <div class="team-page-description">
+                        <h2>service xyz</h2>
+                        <p> 
+                            add here a short description of services
+                        </p>
+                        
+                    </div>   
+                </div>
+            </div>
+        </div>
+    </section>
+    
+	<section class="section-padding portfolio-call-to-action"> 
+		<div class="container">
+			<div class="row">
+				<div class="col-md-12">
+					<h2>Are You Ready To <br />
+						<span class >Start your Journey</span> 
+					</h2>
+                    <button class="project-button-1"><a href="/contactus">Let's Talk</a> <i class="fas fa-angle-right"></i></button>
+					
+                    <button class="project-button-2"><a href=""> Explore More </a> <i class="fas fa-angle-right"></i></button>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<!-- Portfolio Call to Action End -->
+	
+	<!-- Client's Testimonial Start  -->
+	
+	
+    <div id="footer-placeholder"></div> <!-- Placeholder for the footer -->
+    <!-- footer Start  -->
+        <script src="/static/js/loadfooter.js"></script>
+
+</body>
+
+</html>
