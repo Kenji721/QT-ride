@@ -1,8 +1,22 @@
 [![Python CI](https://github.com/ramilevi1/qeu/actions/workflows/main.yml/badge.svg)](https://github.com/ramilevi1/qeu/actions/workflows/main.yml)
 
 
-# Website
-Full blown website/e-commerce website. 
+# Website Template
+Full blown website/e-commerce website. features included:
+1. sign up and log-in/log-out
+2. Https support (currently with self sign certificate)
+3. responsive front-end and backend
+4. admin backoffice
+5. Shop and mycart
+6. integration preparation to stripe payment gateway
+7. blog
+8. parsing blog for dynamic content and search functionality
+9. newletter signin
+10. script to send weekly/monthly newsletter to registered users
+11. unsubscrite functionality
+12. contact us - Email sender
+
+
 # Technology used : 
 1. HTML 5
 2. CSS 3
@@ -26,7 +40,7 @@ Next to do:
 8. Processing images.
 8. sqlite3 database replication with the app and failover seperate service
 
-python -m http.server 8000
+To start the website:
 python -m venv venv  OR 
 python -m venv C:\Users\xvpn\Desktop\website\qeu\venv\Scripts\python.exe
 .\venv\Scripts\activate
