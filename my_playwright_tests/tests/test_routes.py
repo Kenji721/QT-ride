@@ -28,13 +28,13 @@ def page(context):
 
 # Data for testing multiple routes
 @pytest.mark.parametrize("route,expected_title", [
-    ("/index", "QEU"),        # Homepage
-    ("/team", "QEU"),         # Team page
-    ("/contactus", "QEU"),    # Contact Us page
-    ("/blog", "QEU")          # Blog page
+    ("/index", "Website-template"),        # Homepage
+    ("/team", "Website-template"),         # Team page
+    ("/contactus", "Website-template"),    # Contact Us page
+    ("/blog", "Website-template")          # Blog page
 ])
 def test_route(page, route, expected_title):
-    url = f"https://127.0.0.1:5000{route}"
+    url = f"https://127.0.0.1:5002{route}"
     page.goto(url, wait_until='domcontentloaded')
     assert page.title() == expected_title
     

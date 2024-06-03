@@ -36,9 +36,9 @@ def page(context):
         page.close()
 
 def test_search_no_query(page):
-    page.goto("https://127.0.0.1:5000/search", wait_until="domcontentloaded")
+    page.goto("https://127.0.0.1:5002/search", wait_until="domcontentloaded")
     page_content = page.content()
-    expected_text = "chitecto quasi esse eum quibusdam"
+    expected_text = "Summarize the main points"
     # Debug by printing the page content to understand what is being rendered
     # print(page_content)  # Temporarily add this to see what the page actually contains
     assert expected_text in page_content, f"Expected text not found on the page. Page content: {page_content}"
@@ -46,9 +46,9 @@ def test_search_no_query(page):
 
 def test_search_with_query(page):
     search_query = "business"
-    page.goto(f"https://127.0.0.1:5000/search?query={search_query}", wait_until="domcontentloaded")
+    page.goto(f"https://127.0.0.1:5002/search?query={search_query}", wait_until="domcontentloaded")
     page_content = page.content()
-    expected_text = "bla bla Business contents insuranc"
+    expected_text = "Discuss the inevitability"
     # Debug output to check the state of the page
     # print(page.content())  # This might help to understand what's happening on the page
 

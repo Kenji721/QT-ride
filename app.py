@@ -10,7 +10,7 @@ from flask import request, redirect, render_template
 from database import db, migrate
 from flask import Flask, render_template, request, redirect, url_for
 from models import User  # Import your User model
-from flask_login import LoginManager, current_user, login_user, logout_user, login_required
+from flask_login import LoginManager, current_user, login_user, logout_user
 from collections import defaultdict
 import stripe
 
@@ -104,12 +104,12 @@ def update_inventory(product_id, action):
 
 @app.route('/')
 def main():
-    title="QED"
+    title="website"
     return render_template('index.html', title=title)  # Ensure you have an index.html template
 
 @app.route('/index')
 def index():
-    title="QED"
+    title="website"
     return render_template('index.html', title=title)  # Ensure you have an index.html template
 
 @app.route('/shop')
@@ -268,11 +268,13 @@ def mentorship():
 
 @app.route('/team')
 def team():
-    return render_template('team.html') 
+    title="website"
+    return render_template('team.html', title=title) 
 
 @app.route('/contactus')
 def contactus():
-    return render_template('contactus.html')
+    title="website"
+    return render_template('contactus.html', title=title)
 
 
 @app.route('/team-building')
