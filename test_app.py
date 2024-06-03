@@ -26,7 +26,7 @@ class TestApp(unittest.TestCase):
     def test_index_route(self, mock_render_template):
         response = self.app.get('/')
         self.assertEqual(response.status_code, 200)
-        mock_render_template.assert_called_with('index.html', title='QED')  # Adjusted assertion
+        mock_render_template.assert_called_with('index.html', title='website') 
 
     @patch('app.render_template')
     def test_blog_route(self, mock_render_template):
@@ -48,7 +48,7 @@ class TestApp(unittest.TestCase):
     def test_contactus_route(self, mock_render_template):
         response = self.app.get('/contactus')
         self.assertEqual(response.status_code, 200)
-        mock_render_template.assert_called_with('contactus.html')  # Adjusted assertion
+        mock_render_template.assert_called_with('contactus.html', title="website")
 
     
     @patch('app.db.session.query')
