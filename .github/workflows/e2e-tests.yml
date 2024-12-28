@@ -41,7 +41,7 @@ jobs:
       run: pytest my_playwright_tests/tests/
 
     - name: Upload Screenshots (if tests fail)
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v3
       if: failure()  # This step will run only if the previous step (Run tests) fails
       with:
         name: screenshots
