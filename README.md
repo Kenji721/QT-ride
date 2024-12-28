@@ -1,7 +1,7 @@
 [![Python CI](https://github.com/ramilevi1/qeu/actions/workflows/main.yml/badge.svg)](https://github.com/ramilevi1/qeu/actions/workflows/main.yml)
 
 
-# Website Template
+# QT-ride
 Carpooliong. features included:
 1. sign up and log-in/log-out (authentication)
 2. HTTPS support (currently with self sign certificate)
