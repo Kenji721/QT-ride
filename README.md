@@ -2,19 +2,16 @@
 
 
 # Website Template
-Full blown website/e-commerce website. features included:
-1. sign up and log-in/log-out
-2. Https support (currently with self sign certificate)
+Carpooliong. features included:
+1. sign up and log-in/log-out (authentication)
+2. HTTPS support (currently with self sign certificate)
 3. responsive front-end and backend
-4. admin backoffice
-5. Shop and mycart
-6. integration preparation to stripe payment gateway
-7. blog
+7. blog to share our progress and learnings
 8. parsing blog for dynamic content and search functionality
-9. newletter signin
+9. newletter signin for anyone who wants to be notified of new posts
 10. script to send weekly/monthly newsletter to registered users
 11. unsubscrite functionality
-12. contact us - Email sender
+12. contact us - Email sender (currently send to rami's personal email)
 
 
 # Technology used : 
@@ -28,17 +25,20 @@ Full blown website/e-commerce website. features included:
 8. Ajax for serving JS files
 9. SQlite3
 10. Playwright basic e2e tests
+11. unig tests 
 
 Next to do:
 1. containerize
+2. admin backoffice for managing users and blog posts
 2. deploy to production using uWSGI ?!
-3. github action for CI/CD
+3. github action setup for CI/CD
 4. using web server NginX or Apache
-5. SSL support (HTTP, HSTS)
-6. RabbitMQ for serving email async
-7. MongoDB for serving images 
-8. Processing images.
+5. SSL support (HTTP, HSTS) for security 
+6. RabbitMQ for serving email async and later on live rides
+7. MongoDB for serving images
 8. sqlite3 database replication with the app and failover seperate service
+9. create the offerRide and SearchRide as microservices
+
 
 To start the website:
 python -m venv venv  OR 
@@ -75,7 +75,7 @@ flask run
  
  
 Architecture:
-N-tier arcitecture
-![image](https://github.com/ramilevi1/qeu/assets/60967282/ee6387a0-a4b7-4778-b0f9-b9a45f35d6c1)
+N-tier microservices arcitecture 
+
 
                        

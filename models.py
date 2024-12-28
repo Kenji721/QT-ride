@@ -6,9 +6,6 @@ from database import db
 from datetime import datetime
 from werkzeug.security import generate_password_hash, check_password_hash
 
-
-# Base = declarative_base() - not using base, moved to db.model
-
 class Comment(db.Model):
     __tablename__ = 'comment'
     id = db.Column(db.Integer, primary_key=True)
@@ -75,27 +72,5 @@ class User(UserMixin, db.Model):
     def get_id(self):
         return str(self.id)
     
-class CartItem(db.Model):
-    __tablename__ = 'cart_items'
-    id = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
-    product_id = db.Column(db.Integer, db.ForeignKey('products.id'), nullable=False)
-    price = db.Column(db.Float, nullable=False)
-    quantity = db.Column(db.Integer, default=1)
-    date_added = db.Column(db.DateTime, default=datetime.now)
-    # Define the relationship to the Product model
-    product = relationship("Product", back_populates="cart_items")
-    
-class Product(db.Model):
-    __tablename__ = 'products'
-
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(100), nullable=False)
-    price = db.Column(db.Float, nullable=False)
-    description = db.Column(db.Text, nullable=False)
-    image_url = db.Column(db.String(255))
-    quantity = db.Column(db.Integer, default=1)
-    cart_items = relationship("CartItem", back_populates="product")
-
     
     # Add more columns as needed

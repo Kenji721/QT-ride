@@ -9,7 +9,7 @@ def send_newsletter():
     with app.app_context():
         subscribers = Subscriber.query.all()
         for subscriber in subscribers:
-            unsubscribe_link = f"http://127.0.0.1:5000/unsubscribe?email={subscriber.email}"
+            unsubscribe_link = f"https://127.0.0.1:5002/unsubscribe?email={subscriber.email}"
             msg = Message('Newsletter', sender='levi.rami@gmail.com', recipients=[subscriber.email])
             msg.html = render_template('newsletter.html', unsubscribe_link=unsubscribe_link)  # Your email template
             mail = Mail(app) 

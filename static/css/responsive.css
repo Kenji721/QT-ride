@@ -38,34 +38,6 @@
   /* Optional: styling for the back side */
 }
 
-/* Project Page  */
-@media only screen and (max-width: 576px) {
-    
-    .left-content h2{
-        font-size: 45px;
-    }
-    .service-heading{
-        font-size: 35px;
-    }
-    h2.portfolio-heading,section.portfolio-call-to-action h2{
-        font-size: 35px;
-        line-height: 45px;
-    }
-    .section-padding{
-        padding: 30px;
-    }
-    button.project-button-1{
-        margin-bottom: 20px;
-    }
-    .testimonial-description h3{
-        font-size: 35px;
-    }
-
-
-
-
-
-  }
   @media only screen and (max-width: 1200px){
     .coma{
         left: 0%;
@@ -91,7 +63,7 @@
       }
   }
 
-  /* Team Page  */
+  /* About Page  */
 
   @media only screen and (max-width: 992px){
     .achivement-item{
@@ -123,31 +95,3 @@
     }
   }
   
-  /* Service Details Page  */
-  
-  @media only screen and (max-width:768px){
-	  .contact-header .right-content img{
-		  width:70% !important;
-	  }
-  }
-
-.carousel-control-prev,
-.carousel-control-next {
-    width: auto;
-    padding: 0;
-    margin: 0;
-    border: none;
-    background: transparent;
-    z-index: 9999;
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    color: #000;
-    opacity: 0.5;
-    transition: opacity 0.3s;
-}
-
-.carousel-control-prev:hover,
-.carousel-control-next:hover {
-    opacity: 1;
-}

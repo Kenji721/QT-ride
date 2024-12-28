@@ -12,21 +12,11 @@ class TestApp(unittest.TestCase):
     def tearDown(self):
         pass
 
-    @patch('app.User')
-    @patch('app.Product')
-    def test_shop_route(self, mock_product, mock_user):
-        mock_product.query.all.return_value = [Mock(name='book'), Mock(name='magazine')]
-        response = self.app.get('/shop')
-        self.assertIn(b'Our <span class="highlight">Products', response.data)
-        self.assertEqual(response.status_code, 200)
-        self.assertIn(b'book', response.data)
-        self.assertIn(b'magazine', response.data)
-
     @patch('app.render_template')
     def test_index_route(self, mock_render_template):
         response = self.app.get('/')
         self.assertEqual(response.status_code, 200)
-        mock_render_template.assert_called_with('index.html', title='website') 
+        mock_render_template.assert_called_with('index.html', title='QT-Ride') 
 
     @patch('app.render_template')
     def test_blog_route(self, mock_render_template):
@@ -48,7 +38,7 @@ class TestApp(unittest.TestCase):
     def test_contactus_route(self, mock_render_template):
         response = self.app.get('/contactus')
         self.assertEqual(response.status_code, 200)
-        mock_render_template.assert_called_with('contactus.html', title="website")
+        mock_render_template.assert_called_with('contactus.html', title="QT-ride")
 
     
     @patch('app.db.session.query')
@@ -65,14 +55,6 @@ class TestApp(unittest.TestCase):
         # Assert that render_template is called with the correct arguments
         mock_render_template.assert_called_once_with("blog.html", blog_posts=mock_data)
     
-    # @patch('app.render_template')
-    # def test_search_no_query(self, mock_render_template):
-    #     # Call the search route handler function
-    #     search_route_handler()
-
-    #     # Assert that render_template is called with the correct arguments
-    #     mock_render_template.assert_called_once_with("blog.html", blog_posts=[{}])
-
 
     @patch('app.db.session.query')
     @patch('app.render_template')

@@ -28,10 +28,10 @@ def page(context):
 
 # Data for testing multiple routes
 @pytest.mark.parametrize("route,expected_title", [
-    ("/index", "Website-template"),        # Homepage
-    ("/team", "Website-template"),         # Team page
-    ("/contactus", "Website-template"),    # Contact Us page
-    ("/blog", "Website-template")          # Blog page
+    ("/index", "QT-ride"),        # Homepage
+    ("/team", "QT-ride"),         # Team page
+    ("/contactus", "QT-ride"),    # Contact Us page
+    ("/blog", "QT-ride")          # Blog page
 ])
 def test_route(page, route, expected_title):
     url = f"https://127.0.0.1:5002{route}"
