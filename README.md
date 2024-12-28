@@ -40,9 +40,9 @@ Next to do:
 9. create the offerRide and SearchRide as microservices
 
 
-To start the website:
+To start the web application:
 python -m venv venv  OR 
-python -m venv C:\Users\xvpn\Desktop\website\qeu\venv\Scripts\python.exe
+python -m venv C:\xyz\venv\Scripts\python.exe
 .\venv\Scripts\activate
 $env:PATH = ".\venv\Scripts;" + $env:PATH 
 flask db init     
@@ -68,7 +68,7 @@ openssl rsa -in key.pem -out key_decrypted.pem
 $env:PATH = ".\venv\Scripts;" + $env:PATH   
 export PYTHONPATH=/path/to/parent_directory:$PYTHONPATH
 >> python scripts/parse_blogs.py
-python -m venv C:\Users\xvpn\Desktop\website\qeu\venv\Scripts\python.exe
+python -m venv C:\xyz\venv\Scripts\python.exe
 .\venv\Scripts\activate   
 python .\app.py -debug 
 flask run
