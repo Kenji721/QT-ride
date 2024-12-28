@@ -28,16 +28,16 @@ Carpooliong. features included:
 11. unig tests 
 
 Next to do:
-1. containerize
-2. admin backoffice for managing users and blog posts
-2. deploy to production using uWSGI ?!
-3. github action setup for CI/CD
-4. using web server NginX or Apache
-5. SSL support (HTTP, HSTS) for security 
-6. RabbitMQ for serving email async and later on live rides
-7. MongoDB for serving images
-8. sqlite3 database replication with the app and failover seperate service
-9. create the offerRide and SearchRide as microservices
+1. containerize (p1)
+2. admin backoffice for managing users and blog posts (p2)
+2. deploy to production using uWSGI ?! (p2)
+3. github action setup for CI/CD (p0)
+4. using web server NginX or Apache (p1)
+5. SSL support (HTTP, HSTS) for security (p1)
+6. RabbitMQ for serving email async and push notification later on live rides notification (p2)
+7. MongoDB for serving images (p2)
+8. sqlite3 database replication with the app and failover seperate service (p1)
+9. create the offerRide and SearchRide as microservices (p0)
 
 
 To start the web application:
