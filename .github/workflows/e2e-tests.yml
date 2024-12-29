@@ -3,7 +3,7 @@ name: Playwright Test Runner
 on:
   pull_request:
     branches:
-      - main  # Run tests on pull requests to main branch
+      - feature  # Run tests on pull requests to main branch
 
 jobs:
   test:
