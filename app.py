@@ -1,6 +1,6 @@
 import sys, os, re
 from datetime import datetime
-from flask import Flask, request, redirect, flash, render_template, url_for, jsonify
+from flask import flask, request, redirect, flash, render_template, url_for, jsonify
 from flask_mail import Mail, Message
 from flask_migrate import Migrate
 from models import *
