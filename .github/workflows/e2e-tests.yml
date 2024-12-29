@@ -4,6 +4,7 @@ on:
   pull_request:
     branches:
       - main  # Run tests on pull requests to master
+      - feature  # Run tests on pull requests to feature branch
 
 jobs:
   test:
@@ -14,7 +15,7 @@ jobs:
       uses: actions/checkout@v2
 
     - name: Set up Python
-      uses: actions/setup-python@v2
+      uses: actions/setup-python@v3
       with:
         python-version: '3.9'  # Specify your Python version
 
@@ -41,7 +42,7 @@ jobs:
       run: pytest my_playwright_tests/tests/
 
     - name: Upload Screenshots (if tests fail)
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v3
       if: failure()  # This step will run only if the previous step (Run tests) fails
       with:
         name: screenshots

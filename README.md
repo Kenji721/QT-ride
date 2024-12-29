@@ -1,4 +1,4 @@
-[![Python CI](https://github.com/ramilevi1/qeu/actions/workflows/main.yml/badge.svg)](https://github.com/ramilevi1/qeu/actions/workflows/main.yml)
+[![Python CI](https://github.com/ramilevi1/QT-ride/actions/workflows/python-app.yml/badge.svg)](https://github.com/ramilevi1/QT-ride/actions/workflows/python-app.yml)
 
 test 2
 # QT-ride
