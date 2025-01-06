@@ -46,7 +46,15 @@
         <script>loadHeaderBanner('<div class="left-content "><h2>Welcome to The <span class="highlight"> Carpooling app</span></h2>Where we simplify transport to/from the office with low carbon footprint</div>');</script>
 </section>	
 <!-- Header Banner End  -->
-
+{% with messages = get_flashed_messages(with_categories=true) %}
+		{% if messages %}
+	 		 {% for category, message in messages %}
+				<div class="alert alert-{{ category }}">
+				  {{ message }}
+				</div>
+			{% endfor %}
+		{% endif %}
+  	{% endwith %}	
 <div class="container">
     <div class="row">
         <div class="col-md-4">

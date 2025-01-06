@@ -48,7 +48,7 @@ def page(context):
 def test_navigation(page, app_context):
   with app.app_context():
     """Test navigating to a specific blog and interacting with a comment form."""
-    page.goto('https://127.0.0.1:5002/blogs/5', wait_until="domcontentloaded")
+    page.goto('http://127.0.0.1:5002/blogs/5', wait_until="domcontentloaded")
     # Assuming '#exampleFormControlInput1' is the ID for the name input field
     page.wait_for_selector('#exampleFormControlInput1', state='visible')
     page.fill('#exampleFormControlInput1', 'Rami Levi')

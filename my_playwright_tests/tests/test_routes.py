@@ -34,7 +34,7 @@ def page(context):
     ("/blog", "QT-ride")          # Blog page
 ])
 def test_route(page, route, expected_title):
-    url = f"https://127.0.0.1:5002{route}"
+    url = f"http://127.0.0.1:5002{route}"
     page.goto(url, wait_until='domcontentloaded')
     assert page.title() == expected_title
     
