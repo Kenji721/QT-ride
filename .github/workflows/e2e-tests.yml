@@ -34,6 +34,7 @@ jobs:
         python -m pip install --upgrade pip
         pip install flask
         pip install Flask-Mail
+        pip install Flask-Migrate
         pip install playwright pytest
         playwright install
 
