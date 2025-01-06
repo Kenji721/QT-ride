@@ -13,13 +13,15 @@ from models import User  # Import your User model
 from flask_login import LoginManager, current_user, login_user, logout_user
 from collections import defaultdict
 import stripe
-
+import requests
 # for future in case payment will be needed.
 stripe.api_key = "your_stripe_api_key_here"
 
 # Define a context processor to make current_user available to all templates
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///C:/Users/xvpn/Desktop/QTride/site.db' # add the location of your sqlite db file
+app.config['AUTH_SERVICE_URL'] = "http://127.0.0.1:5001"  # Add this line
+
 migrate = Migrate(app, db)
 login_manager = LoginManager(app)
 login_manager.init_app(app)
@@ -219,99 +221,72 @@ def unsubscribe():
 @app.route('/signup', methods=['GET', 'POST'])
 def signup():
     if request.method == 'POST':
-        email = request.form.get('email')
-        password = request.form.get('password')
-        # Check if email is already registered
-        existing_user = User.query.filter_by(email=email).first()
-        if existing_user:
-           message= "You are already signed up!"
-           return render_template('sign-in.html' ,message=message) 
-        if not is_valid_password(password):
-            return 'Invalid password', 400  # Return an error response
-              
-        new_user = User(email=email)
-        new_user.set_password(password)
-        db.session.add(new_user)
-        db.session.commit()
+        data = {"email": request.form['email'], "password": request.form['password']}
+        app.logger.info(f"Signup attempt with email: {data['email']}")
+        try:
+            # Call auth_service for signup
+            response = requests.post(f"{app.config['AUTH_SERVICE_URL']}/signup", json=data, verify=False)
+            app.logger.info(f"Auth Service Response: {response.json()} Status Code: {response.status_code}")
 
-        # if successful singup render index page as a signed in user.
-        message="You signed up successfully"
-        user = User.query.filter_by(email=email).first()
-        if user and user.check_password(password):
-            # Set active status to 1
-            user.active = 1
-            db.session.commit()
-            login_user(user)
-            message = "You signed in successfully"
-            return render_template('index.html', message=message)
+            if response.status_code == 201:
+                # Add user to app.db
+                user = User(email=data['email'], signup_date=datetime.utcnow(), active=True)
+                db.session.add(user)
+                db.session.commit()
+                app.logger.info(f"User {data['email']} added to main app database.")
+                flash("Signup successful! Please log in.", "success")
+                return redirect(url_for('signin'))
+            else:
+                flash(response.json().get("message", "Signup failed"), "danger")
+        except Exception as e:
+            app.logger.error(f"Error during signup: {e}")
+            flash("An error occurred. Please try again.", "danger")
+    return render_template('sign-in.html')  # Update the template name if needed
 
-
-    # Render the signup form template for GET requests
-    return render_template('sign-in.html')
-
-def is_valid_password(password):
-    # Check if the password is at least 8 characters long
-    if len(password) < 8:
-        return False
-
-    # Check if the password contains at least one uppercase letter
-    if not re.search(r"[A-Z]", password):
-        return False
-
-    # Check if the password contains at least one lowercase letter
-    if not re.search(r"[a-z]", password):
-        return False
-
-    # Check if the password contains at least one digit
-    if not re.search(r"\d", password):
-        return False
-
-    # Check if the password contains at least one special character
-    if not re.search(r"[!@#$%^&*()-_+=]", password):
-        return False
-
-    # If all conditions are met, return True
-    return True
 
 
 @app.route('/signin', methods=['GET', 'POST'])
 def signin():
     if request.method == 'POST':
-        email = request.form.get('email')
-        password = request.form.get('password')
-        # Check if user with given email exists
-        user = User.query.filter_by(email=email).first()
-        if user and user.check_password(password):
-            # Set active status to 1
-            user.active = 1
-            db.session.commit()
-            login_user(user)
-        # Redirect to the index or any other page after successful sign-in
-            message = "You signed in successfully"
-            return render_template('index.html', message=message)
-        else:
-        # Handle invalid credentials
-            message="Invalid email or password"
-            return render_template('sign-in.html', message=message)
-        
-    else:
-        # Render the sign-in form template for GET requests
-        return render_template('sign-in.html')
+        data = {"email": request.form['email'], "password": request.form['password']}
+        app.logger.info(f"Signin attempt with email: {data['email']}")
+        try:
+            # Call auth_service to authenticate
+            response = requests.post(f"{app.config['AUTH_SERVICE_URL']}/signin", json=data, verify=False)
+            app.logger.info(f"Auth Service Response: {response.json()} Status Code: {response.status_code}")
+
+            if response.status_code == 200:
+                # Check if user exists in app.db
+                user = User.query.filter_by(email=data['email']).first()
+                user.active = True  # Update user state
+                db.session.commit()
+
+                if not user:
+                    # Add user to app.db if not found
+                    user = User(email=data['email'], signup_date=datetime.utcnow(), active=True)
+                    db.session.add(user)
+                    db.session.commit()
+                    app.logger.info(f"User {data['email']} added to main app database.")
+                login_user(user)
+                flash("Signin successful!", "success")
+                return redirect(url_for('index'))
+            else:
+                flash("Invalid email or password.", "danger")
+        except Exception as e:
+            app.logger.error(f"Error during signin: {e}")
+            flash("An error occurred. Please try again.", "danger")
+    return render_template('sign-in.html')
+
 
 @app.route('/signout')
-# @login_required (might be useful in the future as for now signout is visable to logged in and not loggin users)
 def signout():
-    if current_user.is_authenticated:
-        current_user.active = 0
-        db.session.commit()
+    response = requests.post(f"{app.config['AUTH_SERVICE_URL']}/signout", verify=False)
+    if response.status_code == 200 and current_user.is_authenticated:
+        current_user.active = False  # Update user state
+        db.session.commit()  # Commit changes
         logout_user()
-        message="Successfully signed out"
-        return render_template('index.html', message=message)
-    else:
-        message="You are not signed in."
-        return render_template('index.html', message=message)
-    
-
+        flash('Successfully signed out!', 'success')
+    return redirect(url_for('index'))    
 @login_manager.user_loader
 def load_user(user_id):
     # Assuming you have a User model defined with SQLAlchemy
@@ -322,5 +297,6 @@ if __name__ == '__main__':
         db.create_all()
     ssl_context = ('cert.pem', 'key.pem')
     app.secret_key = 'your_secret_key'  # Needed for flashing messages
-    app.run(host='127.0.0.1', port=5002, ssl_context=('cert.pem', 'key_decrypted.pem'), debug=True)
+    # app.run(host='127.0.0.1', port=5002, ssl_context=('cert.pem', 'key_decrypted.pem'), debug=True)
+    app.run(host='127.0.0.1', port=5002, debug=True)
 
