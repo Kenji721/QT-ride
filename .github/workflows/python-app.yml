@@ -34,7 +34,7 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r requirements.txt
     - name: Copy database file
-      run: copy db\site.db .
+      run: copy site.db site_backup.db
 
     - name: Set environment variables
       env:
