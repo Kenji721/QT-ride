@@ -1,0 +1,33 @@
+{% include 'common-head.html' %}
+<body>
+    {% include 'header.html' %}
+
+    <div class="container">
+        <h2>Available Rides</h2>
+        {% if rides %}
+            <table>
+                <tr>
+                    <th>Origin</th>
+                    <th>Destination</th>
+                    <th>Date</th>
+                    <th>Time</th>
+                    <th>Seats Available</th>
+                    <th>Price</th>
+                </tr>
+                {% for ride in rides %}
+                <tr>
+                    <td>{{ ride.origin }}</td>
+                    <td>{{ ride.destination }}</td>
+                    <td>{{ ride.date }}</td>
+                    <td>{{ ride.time }}</td>
+                    <td>{{ ride.seats_available }}</td>
+                    <td>{{ ride.price }}</td>
+                </tr>
+                {% endfor %}
+            </table>
+        {% else %}
+            <p>No rides available or service currently unavailable.</p>
+        {% endif %}
+    </div>
+</body>
+</html>

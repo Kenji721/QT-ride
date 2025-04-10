@@ -19,8 +19,12 @@ stripe.api_key = "your_stripe_api_key_here"
 
 # Define a context processor to make current_user available to all templates
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///C:/Users/xvpn/Desktop/QTride/site.db' # add the location of your sqlite db file
-app.config['AUTH_SERVICE_URL'] = "http://127.0.0.1:5001"  # Add this line
+app.config['SECRET_KEY'] = 'your_very_secret_and_secure_key'
+#app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///C:/Users/xvpn/Desktop/QTride/site.db' # add the location of your sqlite db file
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///site.db' # relative path
+app.config['AUTH_SERVICE_URL'] = "http://127.0.0.1:5001"  # auth location
+app.config['OFFER_SERVICE_URL'] = "http://127.0.0.1:5002"  # offer_service
+app.config['SEARCH_SERVICE_URL'] = "http://127.0.0.1:5003"  # search_service
 
 migrate = Migrate(app, db)
 login_manager = LoginManager(app)
@@ -62,14 +66,48 @@ def blog():
     return render_template('blog.html', blog_posts=blog_posts)
 
 #in the meantime redirect to under construction page
-@app.route('/offerRide')
-def courses():
-    return render_template('underconstruction.html')  
+@app.route('/offer_rides', methods=['GET', 'POST'])
+def offer_rides():
+
+    if request.method == 'POST':
+        ride_data = {
+            #"id": current_user.id,
+            "origin": request.form['origin'],
+            "destination": request.form['destination'],
+            "date": request.form['date'],
+            "time": request.form['time'],
+            "seats_available": request.form['seats_available'],
+            "price": request.form.get('price') or 0
+        }
+
+        #print("DEBUG request.form =", request.form)
+
+        try:
+            response = requests.post(
+                f"{app.config['OFFER_SERVICE_URL']}/offer_rides",
+                data=ride_data
+            )
+            response.raise_for_status()
+            flash('Ride offered successfully!', 'success')
+        except requests.exceptions.RequestException as e:
+            app.logger.error(f'Error contacting offer service: {e}')
+            flash('Could not offer ride. Please try again later.', 'danger')
+
+        return redirect(url_for('offer_rides'))
+
+    return render_template('offer_ride.html')
 
 #in the meantime redirect to under construction page]
-@app.route('/searchRide')
-def mentorship():
-    return render_template('underconstruction.html')
+@app.route('/search_rides')
+def search_rides():
+    try:
+        response = requests.get(f"{app.config['SEARCH_SERVICE_URL']}/search_rides")
+        response.raise_for_status()
+        rides = response.json()
+    except requests.exceptions.RequestException as e:
+        app.logger.error(f'Error contacting search service: {e}')
+        rides = []
+    return render_template('search_ride.html', rides=rides)
 
 @app.route('/team')
 def team():

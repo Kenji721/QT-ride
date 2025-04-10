@@ -7,7 +7,7 @@ from models import User
 #from models import User
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///auth_service.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///instance/auth_service.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.secret_key = 'auth_service_secret_key'
 
