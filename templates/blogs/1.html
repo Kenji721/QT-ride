@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <div id="common-head-placeholder"></div>
+	{% include 'common-head.html' %}
+	
+</head>
+
+<body>
+   <!-- Header Start  -->
+   <div>
+    {% include 'header.html' %}
+</div> 
+   <!-- Header End  -->
+
+	<!-- Header Banner Start  -->
+	<section class="header ">	
+		<div id="loadHeaderBanner-placeholder"></div>
+        <script src="{{ url_for('static', filename='js/loadHeaderBanner.js') }}"></script>
+        <script>loadHeaderBanner('<div class="left-content "><h2>What is  <span class="highlight">Quality Engineering</span></h2><p>Home / Blog</p></div>');</script>
+	</section>	
+	<!-- Header Banner End  -->
+
+    <style>
+
+        @media (max-width: 768px) { 
+            .best-solutions{
+           width: 80vw;
+           margin-right: auto;
+           margin-left: auto;
+
+        }
+         }
+        
+    </style>
+
+    <!-- Blog details start  -->
+    
+    <section class="best-solutions" >
+        <div class="container" style="padding: 60px 0px 60px 0px;">
+            <div class="row">
+                <div class="col-md-8 col-xs-14">
+                    <img src="../static/image/blog-details.svg" class="sample-image-service img-fluid">
+                    <div class="blog-post"> 
+                        <div class="blog-author">
+                            <p> Rami Levi </p>
+                        </div>
+                        <div class="blog-date">
+                            <p> 10/2/2022 </p>
+                        </div>
+                        <h2 class="blog-title"> Embracing Quality Engineering in the Agile World.</h2>  
+                        <p>In today's fast-paced digital landscape, the demand for high-quality software is greater than ever. Users expect seamless experiences, robust functionalities, and bug-free applications. However, achieving these standards while keeping up with rapid development cycles can be challenging. This is where Quality Engineering, particularly in the context of Agile methodologies, comes into play.
+                             .</p>     
+                             
+                            <p style="background:#FFEEBF" class="lead">Understanding Quality Engineering in Agile:
+                            </p>
+
+                            <p> <p>Quality Engineering in Agile isn't just about testing; it's a holistic approach to ensuring that the software meets quality standards from ideation to deployment and beyond. Here's how it typically unfolds within Agile frameworks like Scrum or Kanban:</p>
+
+                            <ol>
+                              <li><strong>Early Engagement:</strong> Quality Engineers are involved right from the start, collaborating with cross-functional teams during requirement gathering, sprint planning, and user story creation. This ensures that quality considerations are woven into the fabric of the project from the get-go.</li>
+                              <li><strong>Continuous Testing:</strong> Instead of waiting until the end of the development cycle to test the software, Agile teams emphasize continuous testing throughout the process. Automated testing tools and techniques are leveraged to swiftly identify and fix issues as soon as they arise, minimizing the risk of defects piling up.</li>
+                              <li><strong>Test-Driven Development (TDD):</strong> TDD is a core practice in Agile development, where tests are written before the code itself. This approach not only guides the development process but also serves as documentation for the expected behavior of the software.</li>
+                              <li><strong>Iterative Improvement:</strong> Agile encourages frequent iterations and feedback loops. Quality Engineers play a crucial role in analyzing feedback, identifying areas for improvement, and iteratively enhancing the software's quality with each sprint.</li>
+                            </ol>
+                          
+                            <h2>Key Practices in Quality Engineering:</h2>
+                          
+                            <p>Quality Engineering in Agile:</p>
+                          
+                            <ol>
+                              <li><strong>Automation:</strong> Automation is the cornerstone of Agile Quality Engineering. By automating repetitive and time-consuming tests, teams can achieve faster feedback cycles, enabling them to release software more frequently without compromising quality.</li>
+                              <li><strong>Continuous Integration/Continuous Deployment (CI/CD):</strong> CI/CD pipelines streamline the process of building, testing, and deploying software. Quality Engineers collaborate with DevOps teams to ensure that each code change is thoroughly tested and seamlessly integrated into the main codebase.</li>
+                              <li><strong>Shift-Left Testing:</strong> Rather than treating testing as a phase that occurs after development, Agile teams adopt a "shift-left" approach, where testing activities are shifted earlier in the SDLC. This proactive stance helps catch bugs sooner, reducing the cost and effort of fixing them later.</li>
+                              <li><strong>Collaboration and Communication:</strong> Agile emphasizes collaboration and communication among team members. Quality Engineers actively participate in daily stand-ups, sprint reviews, and retrospectives, fostering a culture of transparency and shared responsibility for quality.</li>
+                            </ol>
+                          
+                            <h2>Benefits of Quality Engineering in Agile:</h2>
+                          
+                            <ul>
+                              <li><strong>Faster Time to Market:</strong> By integrating quality practices into every stage of the development process, Agile teams can release software more frequently and with greater confidence, responding swiftly to changing market demands.</li>
+                              <li><strong>Higher Productivity:</strong> Automation and continuous testing reduce the burden of manual testing, allowing teams to focus their efforts on more valuable tasks, such as exploratory testing and innovation.</li>
+                              <li><strong>Improved Quality:</strong> With a proactive approach to quality and a commitment to continuous improvement, Agile teams deliver software that meets or exceeds customer expectations, leading to greater user satisfaction and loyalty.</li>
+                              <li><strong>Reduced Costs:</strong> Catching and fixing defects early in the development process is significantly cheaper and less disruptive than addressing them post-release. Quality Engineering in Agile helps minimize rework and maintenance costs while maximizing ROI.</li>
+                            </ul>
+                          
+                            <p>In conclusion, Quality Engineering is not just a function within Agile development; it's a mindset, a culture, and a commitment to excellence. By embracing Quality Engineering practices, Agile teams can build better software, faster, and stay ahead in today's competitive marketplace.</p>
+                            <br>
+
+                                 <h2>Comments ({{ comments|length }})</h2>
+                                 <hr>
+
+                                 <div class="comments-section">
+                              
+                                
+                                    {% if comments %}
+                                        <ul class="comment-list">
+                                            {% for comment in comments %}
+                                            <div class="row centralize">
+                                                <div class="col-md-1">
+                                                    <img src="/static/image/comment.png" class="img-fluid" alt="" style="width: 50px; height: auto;">
+                                                </div>
+                                                <div class="col-md-9 justify-content-center">
+                                                    <h5>{{ comment.name }}</h5>
+                                                    <p>{{ comment.message }}</p>
+                                                </div>
+                                            </div>   
+                                            {% endfor %}
+                                        </ul>
+                                    {% else %}
+                                        <p>No comments yet.</p>
+                                    {% endif %}
+                                </div>
+
+                               
+                                 <h2>Give a comment</h2>
+                                 <form method="POST" action="/blogs/{{ blog_id }}">
+                                    <input type="hidden" name="blog_id" value="{{ blog_id }}">
+                                 <div class="row" style="margin-top: 20px;">
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <input style="background:#e5e6dd" type="name" class="form-control" name="name" id="exampleFormControlInput1" placeholder="Your Name" required>
+                                        </div>
+                                        <div class="mb-3">
+                                            <input style="background:#e5e6dd" type="email" class="form-control" name="email" id="exampleFormControlInput1" placeholder="Your Email" required>
+                                        </div>
+                                    </div>
+                                     <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <textarea style="background:#e5e6dd" class="form-control py-5" name="message" id="exampleFormControlTextarea1" rows="3" placeholder="Your Message"></textarea>
+                                    <button type="submit" class="btn btn-primary btn-lg btn-block get-quote-button py-3">Comment</button>
+                                        </div>
+                                    </div>
+                                </div>              
+                                </form>
+                     </div>
+            </div>
+        </div>
+    </section>
+<!-- blog-details- finish -->
+
+<!-- Placeholder for the footer -->
+<div id="footer-placeholder"></div> 
+<!-- footer Start  -->
+<script src="{{ url_for('static', filename='js/loadfooter.js') }}"></script>
+<!-- Footer End  -->
+
+</body>
+</html>

@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <div id="common-head-placeholder"></div>
+    {% include 'common-head.html' %}
+    <!-- another way to load common-head using js -->
+   <!-- <script src="./static/js/loadCommonHead.js"></script>-->
+
+   <style>
+    .message {
+        background-color: lightgreen; /* Change to a lighter shade of green */
+        padding: 2px; /* Add padding around the message text */
+        border-radius: 5px; /* Apply rounded corners */
+        border: 1px solid darkgreen; /* Add a border for contrast */
+        opacity: 0.9; /* Make the block slightly transparent */
+        width: auto; /* Adjust width to fit the content */
+        max-width: 200px; /* Set a maximum width to prevent it from becoming too wide */
+        margin: 1px; /* Add margin to create space around the block */
+        display: none
+    }
+    </style>
+
+</head>
+<body>
+    <div>
+        {% include 'header.html' %}
+    </div> 
+  
+
+    <!-- Header Banner Start  -->
+    <section class="header ">	
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4">
+                    <div id="message" class="message">
+                        {% if message %}
+                            <p>{{ message }}</p>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    <div id="loadHeaderBanner-placeholder"></div>
+        <script src="/static/js/loadHeaderBanner.js"></script>
+        <script>loadHeaderBanner('<div class="left-content "><h2>Welcome to The <span class="highlight"> Carpooling app</span></h2>Where we simplify transport to/from the office with low carbon footprint</div>');</script>
+</section>	
+<!-- Header Banner End  -->
+{% with messages = get_flashed_messages(with_categories=true) %}
+		{% if messages %}
+	 		 {% for category, message in messages %}
+				<div class="alert alert-{{ category }}">
+				  {{ message }}
+				</div>
+			{% endfor %}
+		{% endif %}
+  	{% endwith %}	
+<div class="container">
+    <div class="row">
+        <div class="col-md-4">
+            <div id="message" class="message">
+                {% if message %}
+                    <p>{{ message }}</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+
+</div>
+
+    <!-- Work Process Start  -->
+    <section class="work-process section-padding" style="background: #fff;">
+        <div class="container">
+            <div class="row">
+                {% if not current_user.is_authenticated %}
+                <div class="col-md-6">
+                    <div class="process-block">
+                    <p>This application is for internal use and for learning purpose, we design this app to simplify the carpooling, collect information and reduce carbon footprint in Mexico City</p>
+                    </div>
+                    <div class="process-block">
+                        <a href="/signin"><img src="" alt="Sign in"></a>
+                        <p>Please sign in to the application in order to offer rides or request a ride</p>
+                    </div>
+                    {% endif %}
+
+                </div>
+                {% if current_user.is_authenticated %}
+                <div class="col-md-4">
+                    <div class="process-block">
+                        <img src="" alt="Offer">
+                        <h3><a href="/offerRide" style="text-decoration: none; color: inherit;">Offer a Ride</a></h3>
+                        <p>Click  to Offer a ride to/from the office</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="process-block">
+                        <img src="" alt="search">
+                        <h3><a href="/searchRide" style="text-decoration: none; color: inherit;">Search a Ride</a></h3>
+                        <p>Click to search a ride to/from the office</p>
+                    </div>
+                </div>
+                {% else %}
+                {% endif %}  
+            </div>
+        </div>
+    </section>
+    <div id="footer-placeholder"></div> <!-- Placeholder for the footer -->
+    <!-- footer Start  -->
+        <script src="./static/js/loadfooter.js"></script>
+
+
+        <script>
+            // Display the message
+            var messageDiv = document.getElementById('message');
+            if (messageDiv.innerHTML.trim() !== '') {
+                messageDiv.style.display = 'block'; // Show the message if it's not empty
+            }
+    
+            // Automatically hide the message after 10 seconds
+            setTimeout(function() {
+                messageDiv.style.display = 'none';
+            }, 5000); // 5 seconds in milliseconds
+        </script>
+
+
+
+</body>
+
+</html>

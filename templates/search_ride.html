@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% include 'common-head.html' %}
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js"></script>
+    <style>
+        .filter-row { display: flex; gap: 10px; margin-bottom: 15px; flex-wrap: wrap; }
+        .filter-row input, .filter-row select { padding: 5px; }
+        .highlight { background-color: #ffffcc; }
+    </style>
+</head>
+
+<body>
+{% include 'header.html' %}
+<div class="container">
+    <h2>Available Rides</h2>
+    <div class="filter-row">
+        <input type="date" id="filter-date" value="{{ today }}" />
+        <input type="time" id="filter-time" />
+        <input type="number" id="filter-price" placeholder="Max Price" />
+        <input type="text" id="filter-car" placeholder="Car Model" />
+        <input type="text" id="search-keyword" placeholder="Search Origin/Destination/Stop" />
+        <button onclick="applyFilters()">Apply Filters</button>
+        <button onclick="clearFilters()">Reset</button>
+        <button id="toggleViewBtn">Switch to Map View</button>
+    </div>
+
+    <div id="tableView">
+        {% if rides %}
+        <table id="ridesTable" class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Select</th>
+                    <th>Origin</th>
+                    <th>Destination</th>
+                    <th>Stop At</th>
+                    <th>Date</th>
+                    <th>Time</th>
+                    <th>Seats</th>
+                    <th>Price</th>
+                    <th>Driver Name</th>
+                    <th>Driver Phone</th>
+                    <th>Car Model</th>
+                    <th>Car Color</th>
+                    <th>Plate</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for ride in rides %}
+                <tr data-ride='{{ ride | tojson | safe }}'>
+                    <td><input type="checkbox" class="select-ride" /></td>
+                    <td>{{ ride.origin }}</td>
+                    <td>{{ ride.destination }}</td>
+                    <td>{{ ride.stop_at or '-' }}</td>
+                    <td>{{ ride.date }}</td>
+                    <td>{{ ride.time }}</td>
+                    <td>{{ ride.seats_available }}</td>
+                    <td>{{ ride.price }}</td>
+                    <td>{{ ride.driver_name }}</td>
+                    <td>{{ ride.driver_phone }}</td>
+                    <td>{{ ride.car_model }}</td>
+                    <td>{{ ride.car_color }}</td>
+                    <td>{{ ride.car_plate_number }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+        <p>No rides available.</p>
+        {% endif %}
+    </div>
+
+    <div id="mapView" style="display:none; margin-top: 20px;">
+        <div id="map" style="height: 500px;"></div>
+    </div>
+</div>
+
+<div id="footer-placeholder"></div>
+<script src="./static/js/loadfooter.js"></script>
+<script>
+const toggleBtn = document.getElementById('toggleViewBtn');
+const mapView = document.getElementById('mapView');
+const tableView = document.getElementById('tableView');
+let mapInitialized = false, map, markers = [];
+
+toggleBtn.addEventListener('click', () => {
+    if (tableView.style.display !== "none") {
+        tableView.style.display = "none";
+        mapView.style.display = "block";
+        toggleBtn.textContent = "Switch to Table View";
+        if (!mapInitialized) initMap();
+    } else {
+        tableView.style.display = "block";
+        mapView.style.display = "none";
+        toggleBtn.textContent = "Switch to Map View";
+    }
+});
+
+function initMap() {
+    map = L.map('map').setView([20.6736, -103.344], 6);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '© OpenStreetMap contributors'
+    }).addTo(map);
+
+    document.querySelectorAll("#ridesTable tbody tr").forEach(row => {
+        const ride = JSON.parse(row.dataset.ride);
+        if (ride.origin_lat && ride.origin_lng) {
+            const m1 = L.marker([ride.origin_lat, ride.origin_lng])
+                .addTo(map)
+                .bindPopup(`Origin: ${ride.origin}`)
+                .on('click', () => highlightMatchingRows('origin', ride.origin));
+            markers.push(m1);
+        }
+        if (ride.destination_lat && ride.destination_lng) {
+            const m2 = L.marker([ride.destination_lat, ride.destination_lng])
+                .addTo(map)
+                .bindPopup(`Destination: ${ride.destination}`)
+                .on('click', () => highlightMatchingRows('destination', ride.destination));
+            markers.push(m2);
+        }
+    });
+}
+
+function highlightMatchingRows(type, value) {
+    document.querySelectorAll("#ridesTable tbody tr").forEach(row => {
+        const ride = JSON.parse(row.dataset.ride);
+        row.classList.remove('highlight');
+        if (ride[type] === value) row.classList.add('highlight');
+    });
+    tableView.scrollIntoView({ behavior: 'smooth' });
+    toggleBtn.click();  // switch to table view
+}
+
+function applyFilters() {
+    const date = document.getElementById("filter-date").value;
+    const time = document.getElementById("filter-time").value;
+    const price = document.getElementById("filter-price").value;
+    const car = document.getElementById("filter-car").value.toLowerCase();
+    const keyword = document.getElementById("search-keyword").value.toLowerCase();
+
+    document.querySelectorAll("#ridesTable tbody tr").forEach(row => {
+        const ride = JSON.parse(row.dataset.ride);
+        const match = (!date || ride.date === date) &&
+                      (!time || ride.time >= time) &&
+                      (!price || ride.price <= parseFloat(price)) &&
+                      (!car || ride.car_model.toLowerCase().includes(car)) &&
+                      (!keyword || (ride.origin+ride.destination+(ride.stop_at||'')).toLowerCase().includes(keyword));
+        row.style.display = match ? "" : "none";
+    });
+}
+
+function clearFilters() {
+    document.querySelectorAll(".filter-row input").forEach(i => i.value = '');
+    applyFilters();
+}
+</script>
+</body>
+</html>

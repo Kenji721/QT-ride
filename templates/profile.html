@@ -1,0 +1,119 @@
+{% include 'common-head.html' %}
+<body>
+    {% include 'header.html' %}
+
+    <div class="container">
+        <h2>User Profile</h2>
+
+        <!-- Flash Messages -->
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="flash-message {{ category }}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        <form id="profile-form" method="POST" action="/profile">
+            <div class="form-columns">
+                <div class="form-section">
+                    <h3>Account Info</h3>
+
+                    <div class="form-row">
+                        <label for="email">Email</label>
+                        <input type="text" id="email" name="email" value="{{ current_user.email }}" readonly>
+                    </div>
+                </div>
+
+                <div class="form-section">
+                    <h3>Driver Signup (Optional)</h3>
+
+                    <div class="form-row">
+                        <label for="driver_name">Driver Name</label>
+                        <input type="text" id="driver_name" name="driver_name" value="{{ driver_profile.driver_name or '' }}">
+                    </div>
+
+                    <div class="form-row">
+                        <label for="driver_phone">Driver Phone</label>
+                        <input type="text" id="driver_phone" name="driver_phone" value="{{ driver_profile.driver_phone or '' }}">
+                    </div>
+
+                    <div class="form-row">
+                        <label for="car_model">Car Model</label>
+                        <input type="text" id="car_model" name="car_model" value="{{ driver_profile.car_model or '' }}">
+                    </div>
+
+                    <div class="form-row">
+                        <label for="car_color">Car Color</label>
+                        <input type="text" id="car_color" name="car_color" value="{{ driver_profile.car_color or '' }}">
+                    </div>
+
+                    <div class="form-row">
+                        <label for="car_plate_number">Car Plate Number</label>
+                        <input type="text" id="car_plate_number" name="car_plate_number" value="{{ driver_profile.car_plate_number or '' }}">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Submit Button -->
+            <div class="form-actions">
+                <button type="submit">Save Profile</button>
+            </div>
+        </form>
+    </div>
+
+    <style>
+        .form-columns {
+            display: flex;
+            gap: 40px;
+            flex-wrap: wrap;
+            justify-content: space-between;
+        }
+
+        .form-section {
+            flex: 1;
+            min-width: 300px;
+        }
+
+        .form-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .form-row label {
+            width: 130px;
+            font-weight: bold;
+        }
+
+        .form-row input {
+            flex: 1;
+            padding: 5px;
+        }
+
+        .form-actions {
+            margin-top: 30px;
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+        }
+
+        .flash-message.success {
+            color: green;
+            margin-bottom: 15px;
+        }
+
+        .flash-message.danger {
+            color: red;
+            margin-bottom: 15px;
+        }
+    </style>
+
+    <!-- Footer -->
+    <div id="footer-placeholder"></div>
+    <script src="./static/js/loadfooter.js"></script>
+</body>
+</html>

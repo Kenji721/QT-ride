@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <div id="common-head-placeholder"></div>
+        {% include 'common-head.html' %}
+       <!-- <script src="./static/js/loadCommonHead.js"></script>-->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Signup / Signin</title>
+</head>
+
+<body>
+<!-- Header Banner Start  -->
+<section class="header ">	
+<div id="loadHeaderBanner-placeholder"></div>
+    <script src="/static/js/loadHeaderBanner.js"></script>
+    <script>loadHeaderBanner('<div class="left-content "><h2>Carpooling app<span class="highlight"> <br>Signin</span></h2><p>Sign in to our app and get offer and request a ride</p></div>');</script>
+</section>	
+
+<!-- Header Banner End  -->
+
+<section class="messages">
+    <div class="container">
+        <div class="row">
+           <div class="col-md-8">   
+            {% if message %}
+                <p><br>{{ message }}</p>
+            {% endif %}
+           </div>
+        </div>
+    </div>
+</section>
+
+    
+<section class="signin" style="background: #fff;">
+     <div class="container">
+         <div class="row">
+            <div class="col-md-8"> 
+                <div id="signup-section">
+                    <h2>Sign Up</h2>
+                    <form action="/signup" method="post">
+                        <input type="email" name="email" placeholder="Email" required>
+                        <input type="password" name="password" placeholder="Password" required>
+                        <button type="submit">Sign Up</button>
+                    </form>
+                    <p><br>Already have an account? <a href="#" onclick="toggleForm('signin-section')">Signin</a></p>
+                </div>
+            
+                <div id="signin-section" style="display: none;">
+                    <h2>Sign In</h2>
+                    <form action="/signin" method="post">
+                        <input type="email" name="email" placeholder="Email" required>
+                        <input type="password" name="password" placeholder="Password" required>
+                        <button type="submit">Sign In</button>
+                    </form>
+                    <p><br>Don't have an account? <a href="#" onclick="toggleForm('signup-section')">Signup</a></p>
+                </div>
+                <a href="/index">
+                    <button class="nav-button">return to website <i class="fas fa-angle-right"></i> </button>
+                </a>
+            </div>
+        </div>
+    <div class="col-md-8">
+</section>
+
+    <script>
+        function toggleForm(id) {
+            var signupSection = document.getElementById('signup-section');
+            var signinSection = document.getElementById('signin-section');
+
+            if (id === 'signup-section') {
+                signupSection.style.display = 'block';
+                signinSection.style.display = 'none';
+            } else {
+                signupSection.style.display = 'none';
+                signinSection.style.display = 'block';
+            }
+        }
+
+
+        // Call the toggleForm function when the page is loaded
+        document.addEventListener('DOMContentLoaded', function() {
+            toggleForm('signin-section'); // Hide signup by default
+        });    
+    </script>
+
+    <script>
+        function validatePassword(password) {
+            // Define regular expressions for each requirement
+            const minLength = 8;
+            const hasSmallLetter = /[a-z]/.test(password);
+            const hasCapitalLetter = /[A-Z]/.test(password);
+            const hasNumber = /\d/.test(password);
+            const hasSpecialSymbol = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/.test(password);
+    
+            // Check if all requirements are met
+            return password.length >= minLength && hasSmallLetter && hasCapitalLetter && hasNumber && hasSpecialSymbol;
+        }
+    
+        document.addEventListener('DOMContentLoaded', function() {
+            const passwordInput = document.querySelector('input[name="password"]');
+            const signupForm = document.querySelector('form[action="/signup"]');
+    
+            
+            signupForm.addEventListener('submit', function(event) {
+                const password = passwordInput.value;
+                if (!validatePassword(password)) {
+                    alert('Password must be at least 8 characters long and contain at least one small letter, one capital letter, one number, and one special symbol!');
+                    event.preventDefault(); // Prevent form submission
+                }
+            });
+        });
+    </script>
+
+</body>
+</html>

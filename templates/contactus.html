@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <div id="common-head-placeholder"></div>
+    {% include 'common-head.html' %}
+    
+</head>
+
+
+<body>
+    <div>
+        {% include 'header.html' %}
+    </div> 
+
+	<!-- Header Banner Start  -->
+	<section class="header ">	
+		<div id="loadHeaderBanner-placeholder"></div>
+			<script src="/static//js/loadHeaderBanner.js"></script>
+			<script>loadHeaderBanner('<div class="left-content "><h2>Contact <span class="highlight">Us</span></h2></div>');</script>
+	</section>	
+	<!-- Header Banner End  -->
+    
+
+    <!-- Company Offices Start  -->
+
+    <section class="offices section-padding">
+        <div class="container">
+            <div class="row">
+                <h2 class="text-center w-100 service-heading">Contact us for  
+                    <span class="highlight">Improvments or bug reporting</span> </h2>
+            </div>
+        </div>
+        <div class="container">
+
+            <div class="container mt-5">
+                <div class="row">
+                    <div class="col-md-6">
+                        <form action="/send_email" method="post" id="project-details">
+    
+                            <div class="form-group">
+                                <label for="name"></label>
+                                <input type="text" class="form-control" id="name" name="name" placeholder="Your Name"
+                                    required>
+                                <!--placing icon using a span element-->
+                                <span class="icon fa fa-user fa-lg"></span>
+                            </div>
+    
+                            <div class="form-group">
+                                <label for="email"></label>
+                                <input type="email" class="form-control" id="email" name="email" placeholder="Your E-mail"
+                                    required>
+                                <span class="icon fa fa-envelope fa-lg"></span>
+                            </div>
+    
+                            <div class="form-group">
+                                <label for="project-type"></label>
+                                <select id="project-type" name="project-type">
+                                    <option> Select Topic</option>
+                                    <option value="Bug report">Bug reporting</option>
+                                    <option value="CR request">Change request</option>
+                                    <option value="CR request">General question</option>
+                                </select>
+                            </div>
+    
+                            <div class="form-group">
+                                <textarea rows="5" cols="30" id="msg" name="msg" placeholder="Message"
+                                    style="width:100%"></textarea>
+                                <span class="icon-textarea fa fa-edit fa-lg "></span>
+                            </div>
+    
+                            <div class=" text-center">
+                                <!-- <input type="submit" name="submit" value="Submit" class="btn btn-default"> -->
+                                <button type="submit" class="btn btn-default">Submit <i class="fas fa-angle-right"></i> </button>
+                            </div>
+                        </form>
+                    </div>
+    
+                    <div class="col-md-6 centralize">
+                        <div class="contact-image">
+                            <img src="./static/image/Group 4408.png" alt="" class="img-fluid ml-5">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- Project Contact End  -->
+
+
+    <!-- CR/Bug form Start  -->
+
+    <section class="project-contact section-padding">
+        
+
+    <div id="footer-placeholder"></div> <!-- Placeholder for the footer -->
+    <!-- footer Start  -->
+        <script src="./static/js/loadfooter.js"></script>
+   
+</body>
+
+</html>

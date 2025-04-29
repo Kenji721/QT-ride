@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <div id="common-head-placeholder"></div>
+    {% include 'common-head.html' %}
+   <!-- <script src="./static/js/loadCommonHead.js"></script>-->
+
+   <style>
+    .message {
+        background-color: lightgreen; /* Change to a lighter shade of green */
+        padding: 2px; /* Add padding around the message text */
+        border-radius: 5px; /* Apply rounded corners */
+        border: 1px solid darkgreen; /* Add a border for contrast */
+        opacity: 0.9; /* Make the block slightly transparent */
+        width: auto; /* Adjust width to fit the content */
+        max-width: 200px; /* Set a maximum width to prevent it from becoming too wide */
+        margin: 1px; /* Add margin to create space around the block */
+        display: none
+    }
+    </style>
+
+</head>
+<body>
+    <div>
+        {% include 'header.html' %}
+    </div> 
+  
+
+    <!-- Header Banner Start  -->
+    <section class="header ">	
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4">
+                    <div id="message" class="message">
+                        {% if message %}
+                            <p>{{ message }}</p>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    <div id="loadHeaderBanner-placeholder"></div>
+        <script src="/static/js/loadHeaderBanner.js"></script>
+        <script>loadHeaderBanner('<div class="left-content "><h2>Offer / Search <span class="highlight"></span></h2></div>');</script>
+</section>	
+<!-- Header Banner End  -->
+
+
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Under Construction</title>
+<style>
+  
+
+    h1 {
+        font-size: 3rem;
+        color: #ff5733;
+    }
+
+    p {
+        font-size: 1.2rem;
+        margin-top: 1rem;
+        color: #666;
+    }
+
+    .construction-icon {
+        font-size: 4rem;
+        margin-bottom: 1rem;
+        color: #ff5733;
+    }
+
+
+
+
+</style>
+
+<div class="container">
+    <div class="construction-icon">🚧</div>
+    <h1>Under Construction</h1>
+    <p>We're working hard to make this page available soon. Stay tuned!</p>
+        <div></div>
+    </div>
+</div>
+
+    
+    <div id="footer-placeholder"></div> <!-- Placeholder for the footer -->
+    <!-- footer Start  -->
+        <script src="./static/js/loadfooter.js"></script>
+
+
+        <script>
+            // Display the message
+            var messageDiv = document.getElementById('message');
+            if (messageDiv.innerHTML.trim() !== '') {
+                messageDiv.style.display = 'block'; // Show the message if it's not empty
+            }
+    
+            // Automatically hide the message after 10 seconds
+            setTimeout(function() {
+                messageDiv.style.display = 'none';
+            }, 5000); // 5 seconds in milliseconds
+        </script>
+
+
+
+</body>
+</html>

@@ -1,0 +1,240 @@
+{% include 'common-head.html' %}
+<body>
+{% include 'header.html' %}
+
+<div class="container">
+  {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+      {% for category, message in messages %}
+        <div class="flash-message {{ category }}">{{ message }}</div>
+      {% endfor %}
+    {% endif %}
+  {% endwith %}
+
+  <h2>Offer a Ride</h2>
+
+  <div class="form-actions" style="justify-content:flex-start;margin-bottom:10px;">
+    <button type="button" id="toggleInput">Switch to Text Input</button>
+    <button type="button" id="resetAll">Reset Map/Text</button>
+  </div>
+
+  <form id="offer-ride-form" method="POST" action="/offerRide">
+    <div class="form-columns">
+
+      <!-- LEFT (map / text) -->
+      <div class="form-section" style="max-width:600px;">
+        <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css"/>
+        <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js"></script>
+
+        <div id="textInputs" style="display:none;">
+          <div class="form-row">
+            <label for="origin">Origin</label>
+            <input type="text" id="origin" name="origin" list="origin-options" autocomplete="off" required>
+            <datalist id="origin-options"></datalist>
+          </div>
+          <div class="form-row">
+            <label for="destination">Destination</label>
+            <input type="text" id="destination" name="destination" list="destination-options" autocomplete="off" required>
+            <datalist id="destination-options"></datalist>
+          </div>
+          <div class="form-row">
+            <label for="stop_at">Stop At (Optional)</label>
+            <input type="text" id="stop_at" name="stop_at" list="stop-options" autocomplete="off">
+            <datalist id="stop-options"></datalist>
+          </div>
+        </div>
+
+        <div id="mapInputs">
+          <div id="map" style="height:400px;margin-bottom:10px;"></div>
+          <input type="hidden" id="origin_lat" name="origin_lat">
+          <input type="hidden" id="origin_lng" name="origin_lng">
+          <input type="hidden" id="destination_lat" name="destination_lat">
+          <input type="hidden" id="destination_lng" name="destination_lng">
+          <input type="hidden" id="stops_latlng" name="stops_latlng">
+        </div>
+      </div>
+
+      <!-- RIGHT (ride info) -->
+      <div class="form-section">
+        <div class="form-row">
+          <label for="date">Date</label>
+          <input type="date" id="date" name="date" required>
+        </div>
+        <div class="form-row">
+          <label for="time">Time</label>
+          <input type="time" id="time" name="time" required>
+        </div>
+        <div class="form-row">
+          <label for="seats_available">Seats</label>
+          <input type="number" id="seats_available" name="seats_available" required>
+        </div>
+        <div class="form-row">
+          <label for="price">Price</label>
+          <input type="number" id="price" name="price" step="10">
+        </div>
+      </div>
+
+    </div>
+
+    <div class="form-actions">
+      <button type="submit">Offer Ride</button>
+    </div>
+  </form>
+</div>
+
+<style>
+  .form-columns { display: flex; gap: 20px; flex-wrap: wrap; }
+  .form-section { flex: 1; min-width: 300px; }
+  .form-row { display: flex; margin-bottom: 8px; }
+  .form-row label { width: 120px; font-weight: bold; }
+  .form-row input { flex: 1; padding: 5px; }
+  .form-actions { display: flex; gap: 10px; margin-top: 15px; }
+</style>
+
+<div id="footer-placeholder"></div>
+<script src="./static/js/loadfooter.js"></script>
+
+<script>
+// Basic helpers
+const $ = id => document.getElementById(id);
+
+// Map state
+let map, originMarker, destMarker, stopMarkers = [];
+let clickStage = 0;  // 0-origin, 1-destination, 2+ stops
+
+// Initialize Map
+function initMap() {
+  map = L.map('map').setView([20.6736, -103.344], 6);
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { attribution: '© OpenStreetMap' }).addTo(map);
+  map.on('click', onMapClick);
+}
+
+async function onMapClick(e) {
+  const { lat, lng } = e.latlng;
+  const address = await reverseGeocode(lat, lng);
+
+  if (clickStage === 0) {
+    if (originMarker) map.removeLayer(originMarker);
+    originMarker = L.marker([lat, lng]).addTo(map).bindPopup('Origin').openPopup();
+    $('origin').value = address;
+    $('origin_lat').value = lat;
+    $('origin_lng').value = lng;
+    clickStage++;
+  } else if (clickStage === 1) {
+    if (destMarker) map.removeLayer(destMarker);
+    destMarker = L.marker([lat, lng]).addTo(map).bindPopup('Destination').openPopup();
+    $('destination').value = address;
+    $('destination_lat').value = lat;
+    $('destination_lng').value = lng;
+    clickStage++;
+  } else {
+    const marker = L.marker([lat, lng]).addTo(map).bindPopup('Stop').openPopup();
+    stopMarkers.push(marker);
+    $('stop_at').value += ($('stop_at').value ? '; ' : '') + address;
+    const stops = $('stops_latlng').value ? JSON.parse($('stops_latlng').value) : [];
+    stops.push({ lat, lng });
+    $('stops_latlng').value = JSON.stringify(stops);
+  }
+}
+
+async function reverseGeocode(lat, lng) {
+  const res = await fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}`);
+  const data = await res.json();
+  return data.display_name || "";
+}
+
+// Switch Map ↔ Text
+const toggleBtn = $('toggleInput'), resetBtn = $('resetAll'),
+      mapInputs = $('mapInputs'), textInputs = $('textInputs');
+
+toggleBtn.addEventListener('click', async () => {
+  if (mapInputs.style.display === 'none') {
+    // Switch to Map
+    await fillMapFromText();
+    textInputs.style.display = 'none';
+    mapInputs.style.display = 'block';
+    toggleBtn.textContent = 'Switch to Text Input';
+    map.invalidateSize();
+  } else {
+    // Switch to Text
+    textInputs.style.display = 'block';
+    mapInputs.style.display = 'none';
+    toggleBtn.textContent = 'Switch to Map Input';
+  }
+});
+
+resetBtn.addEventListener('click', () => {
+  if (map) {
+    [originMarker, destMarker, ...stopMarkers].forEach(m => { if (m) map.removeLayer(m); });
+  }
+  originMarker = destMarker = null;
+  stopMarkers = [];
+  clickStage = 0;
+  ['origin', 'destination', 'stop_at', 'origin_lat', 'origin_lng', 'destination_lat', 'destination_lng', 'stops_latlng']
+    .forEach(id => $(id).value = '');
+});
+
+// Fill Map from Text
+async function fillMapFromText() {
+  if (!map) return;
+  if (originMarker) map.removeLayer(originMarker);
+  if (destMarker) map.removeLayer(destMarker);
+  stopMarkers.forEach(m => map.removeLayer(m));
+  originMarker = destMarker = null;
+  stopMarkers = [];
+  clickStage = 0;
+
+  const places = [
+    { value: $('origin').value, type: 'origin' },
+    { value: $('destination').value, type: 'destination' }
+  ];
+  const stops = $('stop_at').value.split(';').map(s => s.trim()).filter(Boolean);
+  stops.forEach(s => places.push({ value: s, type: 'stop' }));
+
+  for (const place of places) {
+    const coord = await geocode(place.value);
+    if (coord) {
+      map.fire('click', { latlng: L.latLng(coord.lat, coord.lng) });
+    }
+  }
+}
+
+async function geocode(q) {
+  const res = await fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(q)}`);
+  const data = await res.json();
+  if (data.length) return { lat: +data[0].lat, lng: +data[0].lon };
+  return null;
+}
+
+// Autocomplete
+function attachAutocomplete(inputId, dataListId, multiple=false) {
+  const input = $(inputId);
+  const list = $(dataListId);
+  input.addEventListener('input', async () => {
+    let q = input.value;
+    if (multiple) {
+      const parts = q.split(';');
+      q = parts[parts.length - 1].trim();
+    }
+    if (q.length < 2) { list.innerHTML = ''; return; }
+    const res = await fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(q)}`);
+    const data = await res.json();
+    list.innerHTML = '';
+    data.slice(0, 5).forEach(item => {
+      const option = document.createElement('option');
+      option.value = item.display_name;
+      list.appendChild(option);
+    });
+  });
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  initMap();
+  attachAutocomplete('origin', 'origin-options');
+  attachAutocomplete('destination', 'destination-options');
+  attachAutocomplete('stop_at', 'stop-options', true);
+});
+
+</script>
+</body>
+</html>

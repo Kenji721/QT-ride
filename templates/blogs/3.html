@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <div id="common-head-placeholder"></div>
+	{% include 'common-head.html' %}
+	
+</head>
+
+<body>
+   <!-- Header Start  -->
+   <   <div>
+    {% include 'header.html' %}
+</div> 
+   <!-- Header End  -->
+
+	<!-- Header Banner Start  -->
+	<section class="header ">	
+		<div id="loadHeaderBanner-placeholder"></div>
+        <script src="{{ url_for('static', filename='js/loadHeaderBanner.js') }}"></script>
+        <script>loadHeaderBanner('<div class="left-content "><h2>Discuss A vs <span class="highlight">B</span></h2><p>Home / Blog</p></div>');</script>
+	</section>	
+	<!-- Header Banner End  -->
+
+    <style>
+
+        @media (max-width: 768px) { 
+            .best-solutions{
+           width: 80vw;
+           margin-right: auto;
+           margin-left: auto;
+
+        }
+         }
+        
+    </style>
+
+    <!-- Blog details start  -->
+    
+    <section class="best-solutions" >
+        <div class="container" style="padding: 50px 0px 50px 0px;">
+            <div class="row">
+                <div class="col-md-8 col-xs-12">
+                    <img src="../static/image/blog-details.svg" class="sample-image-service img-fluid">
+                    <div class="blog-post"> 
+                        <div class="blog-author">
+                            <p> Lara Levi </p>
+                            </div>
+                            <div class="blog-date">
+                                <p> 10/4/2022 </p>
+                            </div>
+                        <h2 class="blog-title"> Discuss  A vs B</h2>     
+                             
+                            <p style="background:#FFEEBF" class="lead">Discuss the inevitability of change and its impact on our lives. Introduce the importance of developing strategies to navigate transitions effectively.</p>
+
+                            <p>Discuss the inevitability of change and its impact on our lives. Introduce the importance of developing strategies to navigate transitions effectively.</p>
+                            <br>
+
+                                 <h2>Comments ({{ comments|length }})</h2>
+                                 <hr>
+
+                                 <div class="comments-section">
+                              
+                                
+                                    {% if comments %}
+                                        <ul class="comment-list">
+                                            {% for comment in comments %}
+                                            <div class="row centralize">
+                                                <div class="col-md-1">
+                                                    <img src="/static/image/comment.png" class="img-fluid" alt="" style="width: 50px; height: auto;">
+                                                </div>
+                                                <div class="col-md-9 justify-content-center">
+                                                    <h5>{{ comment.name }}</h5>
+                                                    <p>{{ comment.message }}</p>
+                                                </div>
+                                            </div>   
+                                            {% endfor %}
+                                        </ul>
+                                    {% else %}
+                                        <p>No comments yet.</p>
+                                    {% endif %}
+                                </div>
+
+                               
+                                 <h2>Give a comment</h2>
+                                 <form method="POST" action="/blogs/{{ blog_id }}">
+                                    <input type="hidden" name="blog_id" value="{{ blog_id }}">
+                                 <div class="row" style="margin-top: 20px;">
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <input style="background:#e5e6dd" type="name" class="form-control" name="name" id="exampleFormControlInput1" placeholder="Your Name" required>
+                                        </div>
+                                        <div class="mb-3">
+                                            <input style="background:#e5e6dd" type="email" class="form-control" name="email" id="exampleFormControlInput1" placeholder="Your Email" required>
+                                        </div>
+                                    </div>
+                                     <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <textarea style="background:#e5e6dd" class="form-control py-5" name="message" id="exampleFormControlTextarea1" rows="3" placeholder="Your Message"></textarea>
+                                    <button type="submit" class="btn btn-primary btn-lg btn-block get-quote-button py-3">Comment</button>
+                                        </div>
+                                    </div>
+                                </div>              
+                                </form>
+                     </div>
+            </div>
+        </div>
+    </section>
+<!-- blog-details- finish -->
+
+<!-- Placeholder for the footer -->
+<div id="footer-placeholder"></div> 
+<!-- footer Start  -->
+<script src="{{ url_for('static', filename='js/loadfooter.js') }}"></script>
+<!-- Footer End  -->
+
+</body>
+</html>

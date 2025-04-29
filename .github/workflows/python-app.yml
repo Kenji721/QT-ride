@@ -1,0 +1,53 @@
+name: Python CI
+
+on:
+  push:
+    branches:
+      - feature
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: windows-latest
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.12.2'
+        
+    - name: Cache dependencies
+      uses: actions/cache@v2
+      with:
+        path: ~/.cache/pip  # Path to the directory containing pip cache
+        key: ${{ runner.os }}-pip-${{ hashFiles('requirements.txt') }}
+        restore-keys: |
+          ${{ runner.os }}-pip-
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+    - name: Copy database file
+      run: copy site.db site_backup.db
+
+    - name: Set environment variables
+      env:
+        DATABASE_URL: sqlite:///db/site.db
+      run: echo "DATABASE_URL=$DATABASE_URL" >> $GITHUB_ENV
+
+    - name: Start application
+      run: python app.py &
+
+    - name: Wait for application to start
+      run: |
+        echo "Waiting for 5 seconds..."
+        sleep 5
+    
+    - name: Run tests
+      run: python test_app.py
